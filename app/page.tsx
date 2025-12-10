@@ -70,7 +70,7 @@ export default function HomePage() {
         const homepageData = await getHomepageData();
         setData(homepageData);
       } catch (error) {
-        console.error('Failed to load homepage data:', error);
+        console.error("Failed to load homepage data:", error);
       } finally {
         setLoading(false);
       }
@@ -174,12 +174,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <RootNav 
-        onLoginClick={() => setShowLoginModal(true)}
-        onSignupClick={() => setShowSignupModal(true)}
-      />
-      
       {/* Main Content */}
       <main className="max-w-[1400px] mx-auto px-6 py-8">
         <HeroCarousel items={data.carousel} />
@@ -230,9 +224,6 @@ export default function HomePage() {
         {/* CTA Section */}
         <CtaSection />
       </main>
-
-      {/* Footer */}
-      <Footer />
 
       {/* Automatic Location Picker */}
       <AutomaticLocationPicker
