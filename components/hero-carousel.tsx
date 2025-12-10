@@ -65,7 +65,7 @@ export function HeroCarousel({ items }: HeroCarouselProps) {
 
   return (
     <div className="relative rounded-xl overflow-hidden mb-6">
-      <div className="relative h-[500px]">
+      <div className="relative h-[50vh]">
         {/* Background Images with Crossfade Transition */}
         <div className="absolute inset-0">
           {items.map((item, index) => (

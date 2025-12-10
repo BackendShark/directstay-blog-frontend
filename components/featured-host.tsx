@@ -2,17 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Eye, MessageSquare, Bookmark } from "lucide-react";
 import { DirectStayBadge } from "./directstay-badge";
-
-export interface FeaturedHostItem {
-  id: number;
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  publishedAt: string;
-  views: string;
-  comments: string;
-}
+import type { FeaturedHostItem } from "@/lib/types";
 
 interface FeaturedHostProps {
   items: FeaturedHostItem[];
@@ -44,31 +34,6 @@ export function FeaturedHost({ items }: FeaturedHostProps) {
                 </p>
 
                 <DirectStayBadge className="mb-2" />
-
-                {/* <div className="flex items-center gap-1.5 mb-2">
-                  <div className="relative w-4 h-4 shrink-0">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-400 rounded-full"></div>
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="white"
-                      className="absolute inset-0 w-full h-full p-0.5"
-                    >
-                      <path d="M12 3L4 9v12h16V9L12 3z" />
-                    </svg>
-                  </div>
-                  <span className="text-xs font-medium text-gray-900">
-                    DirectStay
-                  </span>
-                  <div className="w-3 h-3 bg-yellow-500 rounded-full flex items-center justify-center">
-                    <svg
-                      className="w-1.5 h-1.5 text-white"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" />
-                    </svg>
-                  </div>
-                </div> */}
 
                 <div className="flex items-center justify-between text-xs text-gray-500">
                   <div className="flex items-center gap-2">

@@ -2,21 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Eye, MessageSquare, ChevronRight } from "lucide-react";
 import { CollaborationBadge } from "@/components/collaboration-badge";
-
-export interface MerchantSpotlightItem {
-  id: number;
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  collaborator: {
-    logo: string;
-    name: string;
-  };
-  publishedAt: string;
-  views: string;
-  comments: string;
-}
+import type { MerchantSpotlightItem } from "@/lib/types";
 
 interface MerchantSpotlightProps {
   items: MerchantSpotlightItem[];

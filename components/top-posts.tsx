@@ -2,17 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Eye, MessageSquare, Bookmark } from "lucide-react";
 import { DirectStayBadge } from "@/components/directstay-badge";
-
-export interface TopPostItem {
-  id: number;
-  slug: string;
-  title: string;
-  description: string;
-  image: string;
-  publishedAt: string;
-  views: string;
-  comments: string;
-}
+import type { TopPostItem } from "@/lib/types";
 
 interface TopPostsProps {
   items: TopPostItem[];

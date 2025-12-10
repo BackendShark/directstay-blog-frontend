@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-
-export interface PlaceItem {
-  id: number;
-  name: string;
-  type: string;
-  distance: string;
-  image: string;
-  category: string;
-  slug: string;
-}
+import type { PlaceItem } from "@/lib/types";
 
 export interface PlacesToVisitProps {
   title: string;
