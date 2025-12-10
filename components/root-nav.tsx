@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Sun, Moon } from "lucide-react";
 import Image from "next/image";
 
-const handleRegisterClick = () => {
-  // Implement registration logic here
-  console.log("Register button clicked");
-};
+interface RootNavProps {
+  onLoginClick?: () => void;
+  onSignupClick?: () => void;
+}
 
-export const RootNav = () => {
+export const RootNav = ({ onLoginClick, onSignupClick }: RootNavProps) => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   return (
     <header className="border-b bg-white sticky top-0 z-40">
@@ -63,13 +63,14 @@ export const RootNav = () => {
           <Button
             variant="ghost"
             className="text-sm font-medium text-blue-600 hover:text-blue-700"
+            onClick={onSignupClick}
           >
             Register
           </Button>
           <Button
             variant="ghost"
             className="text-sm font-medium text-blue-600 hover:text-blue-700"
-            onClick={handleRegisterClick}
+            onClick={onLoginClick}
           >
             Login
           </Button>
