@@ -154,7 +154,7 @@ export function SearchFilters({
   const [locationSearch, setLocationSearch] = useState("");
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
-  
+
   const categoriesRef = useRef<HTMLDivElement>(null);
 
   const handleSearchChange = (value: string) => {
@@ -195,16 +195,17 @@ export function SearchFilters({
     }
   };
 
-  const scrollCategories = (direction: 'left' | 'right') => {
+  const scrollCategories = (direction: "left" | "right") => {
     if (categoriesRef.current) {
       const scrollAmount = 200;
-      const scrollDirection = direction === 'left' ? -scrollAmount : scrollAmount;
-      
+      const scrollDirection =
+        direction === "left" ? -scrollAmount : scrollAmount;
+
       categoriesRef.current.scrollBy({
         left: scrollDirection,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
-      
+
       // Update scroll button states after animation
       setTimeout(checkScrollButtons, 300);
     }
@@ -216,7 +217,9 @@ export function SearchFilters({
       location.state.toLowerCase().includes(locationSearch.toLowerCase())
   );
 
-  const selectedSortLabel = SORT_OPTIONS.find(option => option.value === selectedSort)?.label || "Newest";
+  const selectedSortLabel =
+    SORT_OPTIONS.find((option) => option.value === selectedSort)?.label ||
+    "Newest";
 
   // Check scroll buttons on mount and resize
   useEffect(() => {
@@ -228,11 +231,11 @@ export function SearchFilters({
       checkScrollButtons();
     };
 
-    window.addEventListener('resize', handleResize);
-    
+    window.addEventListener("resize", handleResize);
+
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -248,7 +251,7 @@ export function SearchFilters({
             placeholder="Search for post, merchant..."
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full h-12 pl-12 pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+            className="min-w-md h-12 pl-12 pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -278,11 +281,16 @@ export function SearchFilters({
                 {filteredLocations.slice(0, 20).map((location, index) => (
                   <button
                     key={index}
-                    onClick={() => handleLocationSelect(location.city, location.state)}
+                    onClick={() =>
+                      handleLocationSelect(location.city, location.state)
+                    }
                     className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center justify-between"
                   >
-                    <span>{location.city}, {location.state}</span>
-                    {selectedLocation === `${location.city}, ${location.state}` && (
+                    <span>
+                      {location.city}, {location.state}
+                    </span>
+                    {selectedLocation ===
+                      `${location.city}, ${location.state}` && (
                       <Check className="w-4 h-4 text-blue-600" />
                     )}
                   </button>
@@ -348,11 +356,11 @@ export function SearchFilters({
       {/* Category Tabs */}
       <div className="flex items-center gap-2">
         {/* Left scroll button */}
-        <button 
-          onClick={() => scrollCategories('left')}
+        <button
+          onClick={() => scrollCategories("left")}
           className={`p-2 rounded-lg transition-colors shrink-0 ${
-            canScrollLeft 
-              ? "hover:bg-gray-100 text-gray-600" 
+            canScrollLeft
+              ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
           }`}
           disabled={!canScrollLeft}
@@ -360,12 +368,12 @@ export function SearchFilters({
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        
+
         {/* Categories container */}
-        <div 
+        <div
           ref={categoriesRef}
           className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           onScroll={checkScrollButtons}
         >
           {CATEGORIES.map((category) => (
@@ -382,13 +390,13 @@ export function SearchFilters({
             </button>
           ))}
         </div>
-        
+
         {/* Right scroll button */}
-        <button 
-          onClick={() => scrollCategories('right')}
+        <button
+          onClick={() => scrollCategories("right")}
           className={`p-2 rounded-lg transition-colors shrink-0 ${
-            canScrollRight 
-              ? "hover:bg-gray-100 text-gray-600" 
+            canScrollRight
+              ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
           }`}
           disabled={!canScrollRight}

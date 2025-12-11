@@ -1,153 +1,132 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Search,
-  MapPin,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Calendar,
   Eye,
   MessageCircle,
   Bookmark,
-  SlidersHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroCarousel } from "@/components/hero-carousel";
+import { getHomepageData } from "@/lib/api/content";
+
+import { PromoCards } from "@/components/promo-cards";
+import type {
+  CarouselItem,
+  TopPostItem,
+  MerchantSpotlightItem,
+  PlaceItem,
+  FeaturedHostItem,
+  PromoCard,
+  FeaturedCarouselItem,
+} from "@/lib/types";
+import { SearchFilters } from "@/components/search-filters";
 
 export default function MerchantsPage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = 3;
+  const [loading, setLoading] = useState(true);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % totalSlides);
+  // Search and filter states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState(
+    "Birmingham, Alabama"
+  );
+  const [selectedSort, setSelectedSort] = useState("newest");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  // Data states
+  const [data, setData] = useState<{
+    carousel: CarouselItem[];
+    topPosts: TopPostItem[];
+    merchantSpotlight: MerchantSpotlightItem[];
+    places: PlaceItem[];
+    categories: string[];
+    featuredHosts: FeaturedHostItem[];
+    promoCards: PromoCard[];
+    featuredCarousel: FeaturedCarouselItem[];
+  } | null>(null);
+
+  useEffect(() => {
+    // Load homepage data
+    const loadData = async () => {
+      try {
+        const homepageData = await getHomepageData();
+        setData(homepageData);
+      } catch (error) {
+        console.error("Failed to load homepage data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Search and filter handlers
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    console.log("Search query:", query);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+  const handleLocationChange = (location: string) => {
+    setSelectedLocation(location);
+    console.log("Selected location:", location);
   };
+
+  const handleSortChange = (sort: string) => {
+    setSelectedSort(sort);
+    console.log("Selected sort:", sort);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    console.log("Selected category:", category);
+  };
+
+  const handlePopularSearchClick = (search: string) => {
+    console.log("Popular search clicked:", search);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-600">Failed to load content</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
       <main className="max-w-[1400px] mx-auto px-6 py-8">
-        {/* Hero Carousel */}
-        <HeroCarousel />
-
+        <HeroCarousel items={data.carousel} />
         {/* Promotional Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          <div className="flex gap-4 p-6 bg-white border rounded-2xl hover:shadow-md transition-shadow">
-            <img
-              src="/sponsored-posts-badge.jpg"
-              alt="Sponsored Posts"
-              className="w-20 h-20 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg mb-2">
-                Want to get sponsored?
-              </h3>
-              <p className="text-sm text-gray-600 mb-3">
-                Smart furniture choices and layout tricks merchants recommend
-                for turning compact.
-              </p>
-              <Button
-                variant="link"
-                className="p-0 h-auto text-blue-600 font-medium"
-              >
-                Read More
-              </Button>
-            </div>
-          </div>
+        <PromoCards cards={data.promoCards} />
 
-          <div className="flex gap-4 p-6 bg-white border rounded-2xl hover:shadow-md transition-shadow">
-            <img
-              src="/becoming-a-host.jpg"
-              alt="Becoming a host"
-              className="w-20 h-20 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg mb-2">Becoming a host</h3>
-              <p className="text-sm text-gray-600 mb-3">
-                Smart furniture choices and layout tricks merchants recommend
-                for turning compact.
-              </p>
-              <Button
-                variant="link"
-                className="p-0 h-auto text-blue-600 font-medium"
-              >
-                Read More
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Search and Filter Section */}
-        <div className="mb-8">
-          <div className="flex gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search for post, merchant..."
-                className="w-full pl-12 pr-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <button className="flex items-center gap-2 px-4 py-3 border rounded-xl hover:bg-gray-50">
-              <MapPin className="w-5 h-5 text-gray-600" />
-              <span className="text-sm">Birmingham, Alabama</span>
-              <ChevronDown className="w-4 h-4 text-gray-600" />
-            </button>
-            <button className="flex items-center gap-2 px-4 py-3 border rounded-xl hover:bg-gray-50">
-              <span className="text-sm">Sort:</span>
-              <span className="text-sm font-medium">Newest</span>
-              <ChevronDown className="w-4 h-4 text-gray-600" />
-            </button>
-            <button className="px-4 py-3 border rounded-xl hover:bg-gray-50">
-              <SlidersHorizontal className="w-5 h-5 text-gray-600" />
-            </button>
-          </div>
-
-          {/* Popular Searches */}
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-sm text-gray-600">Popular Searches:</span>
-            <div className="flex gap-2">
-              {["Home", "Garden", "Restaurant"].map((tag) => (
-                <button
-                  key={tag}
-                  className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-sm rounded-full transition-colors"
-                >
-                  {tag}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Category Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-2">
-            {[
-              "All",
-              "Home and Living",
-              "Lifestyle and Experiences",
-              "Art and Cuisines",
-              "Food and Drinks",
-              "Fashion and Personal Style",
-              "Health and Wellness",
-            ].map((category, index) => (
-              <button
-                key={category}
-                className={`px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors ${
-                  index === 0
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
+        {/* Search and Filters */}
+        <SearchFilters
+          onSearchChange={handleSearchChange}
+          onLocationChange={handleLocationChange}
+          onSortChange={handleSortChange}
+          onCategoryChange={handleCategoryChange}
+          onPopularSearchClick={handlePopularSearchClick}
+          initialLocation={selectedLocation}
+          initialSort={selectedSort}
+          initialCategory={selectedCategory}
+        />
         {/* Recent Post and Top Post Section */}
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
           {/* Recent Post - 2 columns */}

@@ -97,7 +97,7 @@ export function FeaturedCarousel({
           }
         }
       `}</style>
-      <div className="relative w-full h-[45vh] overflow-hidden">
+      <div className="relative w-full h-[60vh] overflow-hidden">
         {items.map((item, index) => (
           <div
             key={item.id}
@@ -120,28 +120,36 @@ export function FeaturedCarousel({
         ))}
       </div>
 
-      <div className="absolute bg-black/40 rounded-md top-10 backdrop-blur-sm right-4 p-8 max-w-lg transform transition-all duration-700 ease-out"
-           style={{
-             transform: `translateX(${currentIndex * 20}px)`,
-             animation: "slideInContent 0.7s ease-out"
-           }}>
+      <div
+        className="absolute bg-black/40 rounded-md top-10 backdrop-blur-sm right-4 p-8 max-w-lg transform transition-all duration-700 ease-out"
+        style={{
+          transform: `translateX(${currentIndex * 20}px)`,
+          animation: "slideInContent 0.7s ease-out",
+        }}
+      >
         <div className="relative z-10">
           {/* Featured Badge */}
           <div className="inline-block bg-white/10 px-3 py-1 rounded-full text-sm text-yellow-500 mb-4">
             Featured
           </div>
 
-          <h2 className="text-2xl font-bold text-white mb-4 leading-tight transform transition-all duration-500 ease-out"
-              style={{animation: "fadeInUp 0.6s ease-out 0.1s both"}}>
+          <h2
+            className="text-2xl font-bold text-white mb-4 leading-tight transform transition-all duration-500 ease-out"
+            style={{ animation: "fadeInUp 0.6s ease-out 0.1s both" }}
+          >
             {currentItem.title}
           </h2>
-          <p className="text-base text-white/90 mb-6 leading-relaxed transform transition-all duration-500 ease-out"
-             style={{animation: "fadeInUp 0.6s ease-out 0.2s both"}}>
+          <p
+            className="text-base text-white/90 mb-6 leading-relaxed transform transition-all duration-500 ease-out"
+            style={{ animation: "fadeInUp 0.6s ease-out 0.2s both" }}
+          >
             {currentItem.description}
           </p>
 
-          <div className="flex items-center gap-2 mb-4 transform transition-all duration-500 ease-out"
-               style={{animation: "slideInFromLeft 0.6s ease-out 0.3s both"}}>
+          <div
+            className="flex items-center gap-2 mb-4 transform transition-all duration-500 ease-out"
+            style={{ animation: "slideInFromLeft 0.6s ease-out 0.3s both" }}
+          >
             <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white transform transition-transform duration-300 hover:scale-110">
               <img
                 src={currentItem.author.avatar}
@@ -157,8 +165,10 @@ export function FeaturedCarousel({
             </span>
           </div>
 
-          <div className="flex items-center gap-4 mb-6 transform transition-all duration-500 ease-out"
-               style={{animation: "slideInFromLeft 0.6s ease-out 0.4s both"}}>
+          <div
+            className="flex items-center gap-4 mb-6 transform transition-all duration-500 ease-out"
+            style={{ animation: "slideInFromLeft 0.6s ease-out 0.4s both" }}
+          >
             <span className="text-sm text-white/80 flex items-center gap-1 transition-all duration-300 hover:text-white">
               <Calendar className="w-4 h-4 transition-transform duration-300 hover:scale-110" />
               {currentItem.date}
@@ -169,16 +179,20 @@ export function FeaturedCarousel({
             </span>
           </div>
 
-          <Button className="border cursor-pointer backdrop-blur-sm bg-transparent text-white h-10 px-8 rounded-lg font-medium transition-all duration-300 w-full hover:bg-white/10 hover:scale-105 transform"
-                  style={{animation: "fadeInUp 0.6s ease-out 0.5s both"}}>
+          <Button
+            className="border cursor-pointer backdrop-blur-sm bg-transparent text-white h-10 px-8 rounded-lg font-medium transition-all duration-300 w-full hover:bg-white/10 hover:scale-105 transform"
+            style={{ animation: "fadeInUp 0.6s ease-out 0.5s both" }}
+          >
             Read
           </Button>
         </div>
       </div>
 
       {/* Bottom navigation bar with indicators and arrows aligned */}
-      <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between transform transition-all duration-500 ease-out"
-           style={{animation: "fadeInUp 0.6s ease-out 0.6s both"}}>
+      <div
+        className="absolute bottom-6 left-6 right-6 flex items-center justify-between transform transition-all duration-500 ease-out"
+        style={{ animation: "fadeInUp 0.6s ease-out 0.6s both" }}
+      >
         {/* Slide Indicators - left side */}
         <div className="flex gap-2">
           {items.map((_, index) => (

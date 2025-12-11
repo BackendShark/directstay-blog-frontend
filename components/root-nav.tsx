@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Sun, Moon } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 interface RootNavProps {
   onLoginClick?: () => void;
@@ -12,6 +13,7 @@ interface RootNavProps {
 
 export const RootNav = ({ onLoginClick, onSignupClick }: RootNavProps) => {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const pathname = usePathname();
   return (
     <header className="border-b bg-white sticky top-0 z-40">
       <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between">
@@ -27,24 +29,43 @@ export const RootNav = ({ onLoginClick, onSignupClick }: RootNavProps) => {
 
         {/* Navigation */}
         <nav className="flex items-center gap-6">
-          <Link href="/" className="text-sm font-medium text-blue-600">
+          <Link 
+            href="/" 
+            className={`text-sm font-medium ${
+              pathname === "/" 
+                ? "text-blue-600" 
+                : "text-foreground hover:text-blue-600"
+            }`}
+          >
             HOME
           </Link>
           <Link
             href="/merchants"
-            className="text-sm font-medium text-foreground hover:text-blue-600"
+            className={`text-sm font-medium ${
+              pathname === "/merchants" 
+                ? "text-blue-600" 
+                : "text-foreground hover:text-blue-600"
+            }`}
           >
             MERCHANTS
           </Link>
           <Link
             href="/hosts"
-            className="text-sm font-medium text-foreground hover:text-blue-600"
+            className={`text-sm font-medium ${
+              pathname === "/hosts" 
+                ? "text-blue-600" 
+                : "text-foreground hover:text-blue-600"
+            }`}
           >
             HOSTS
           </Link>
           <Link
             href="/support"
-            className="text-sm font-medium text-foreground hover:text-blue-600"
+            className={`text-sm font-medium ${
+              pathname === "/support" 
+                ? "text-blue-600" 
+                : "text-foreground hover:text-blue-600"
+            }`}
           >
             SUPPORT
           </Link>
