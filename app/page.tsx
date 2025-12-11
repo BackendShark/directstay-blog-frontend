@@ -29,6 +29,24 @@ import type {
   PromoCard,
   FeaturedCarouselItem,
 } from "@/lib/types";
+import { GridPosts, type GridPost } from "@/components/grid-posts";
+
+// Transform TopPostItem to RecentPost
+const transformToRecentPosts = (items: TopPostItem[]): GridPost[] => {
+  return items.map((item) => ({
+    id: item.id.toString(),
+    title: item.title,
+    excerpt: item.description,
+    image: item.image,
+    author: {
+      name: "Author",
+    },
+    publishDate: item.publishedAt,
+    likes: item.views,
+    comments: item.comments,
+    href: `/blog/${item.slug}`,
+  }));
+};
 
 export default function HomePage() {
   // Modal states
@@ -196,7 +214,10 @@ export default function HomePage() {
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
           {/* Left Column - Top Posts */}
-          <TopPosts items={data.topPosts} />
+          <GridPosts
+            posts={transformToRecentPosts(data.topPosts)}
+            className="col-span-7"
+          />
 
           {/* Right Column - Merchant Spotlight */}
           <MerchantSpotlight items={data.merchantSpotlight} />

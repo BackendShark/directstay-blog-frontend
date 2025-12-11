@@ -58,7 +58,7 @@ export function RelatedTopics({
             </div>
             <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
               <Image
-                src={post.image || "/placeholder.svg"}
+                src={post.image || "/beautiful-modern-house-with-garden.jpg"}
                 alt={post.title}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform"

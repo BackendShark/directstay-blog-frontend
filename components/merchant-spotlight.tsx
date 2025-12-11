@@ -3,26 +3,33 @@ import Image from "next/image";
 import { Calendar, Eye, MessageSquare, ChevronRight } from "lucide-react";
 import { CollaborationBadge } from "@/components/collaboration-badge";
 import type { MerchantSpotlightItem } from "@/lib/types";
+import Underline from "./underline";
 
 interface MerchantSpotlightProps {
   items: MerchantSpotlightItem[];
   seeMoreUrl?: string;
 }
 
-export function MerchantSpotlight({ items, seeMoreUrl = "#" }: MerchantSpotlightProps) {
+export function MerchantSpotlight({
+  items,
+  seeMoreUrl = "#",
+}: MerchantSpotlightProps) {
   return (
     <div className="col-span-1 lg:col-span-5 flex flex-col">
-      <div className="flex items-center justify-between mb-3 sm:mb-4">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900">
-          Merchant Spotlight
-        </h2>
-        <a
-          href={seeMoreUrl}
-          className="text-xs sm:text-sm font-medium flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
-        >
-          See More
-          <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
-        </a>
+      <div className="mb-4 sm:mb-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+            Merchant Spotlight
+          </h2>
+          <Link
+            href={seeMoreUrl}
+            className="text-xs sm:text-sm font-medium flex items-center gap-1 text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            See More
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+          </Link>
+        </div>
+        <Underline className="w-[30%]" />
       </div>
 
       <div className="flex-1 h-full flex flex-col gap-3 sm:gap-4 lg:gap-5">
@@ -55,7 +62,9 @@ export function MerchantSpotlight({ items, seeMoreUrl = "#" }: MerchantSpotlight
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     <span className="hidden sm:inline">{item.publishedAt}</span>
-                    <span className="sm:hidden">{item.publishedAt.split(' ')[0]}</span>
+                    <span className="sm:hidden">
+                      {item.publishedAt.split(" ")[0]}
+                    </span>
                   </span>
                   <span className="flex items-center gap-1">
                     <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" />

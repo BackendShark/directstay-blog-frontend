@@ -7,11 +7,13 @@ interface Collaborator {
 
 interface DirectStayBadgeProps {
   className?: string;
+  size?: "sm" | "md" | "lg";
   collaborator?: Collaborator | null;
 }
 
 export const CollaborationBadge = ({
   className,
+  size = "md",
   collaborator = null,
 }: DirectStayBadgeProps) => {
   return (
@@ -20,21 +22,29 @@ export const CollaborationBadge = ({
         <div className="relative mr-3">
           <Image
             src={"/assets/badge.svg"}
-            height={50}
-            width={50}
+            height={size === "sm" ? 20 : size === "md" ? 30 : 50}
+            width={size === "sm" ? 20 : size === "md" ? 30 : 50}
             alt="Directstay badge"
-            className="w-8 h-8"
+            className="w-6 h-6"
           />
           <Image
             src={collaborator.logo}
-            height={50}
-            width={50}
+            height={size === "sm" ? 20 : size === "md" ? 30 : 50}
+            width={size === "sm" ? 20 : size === "md" ? 30 : 50}
             alt={`${collaborator.name} logo`}
             className="w-8 h-8 rounded-full absolute top-0 -right-3 "
           />
         </div>
       )}
-
+      {!collaborator && (
+        <Image
+          src={"/assets/badge.svg"}
+          height={size === "sm" ? 20 : size === "md" ? 30 : 50}
+          width={size === "sm" ? 20 : size === "md" ? 30 : 50}
+          alt="Directstay badge"
+          className="w-8 h-8"
+        />
+      )}
       <span className="text-xs font-medium">DirectStay</span>
       <Image
         src={"/assets/verified.svg"}
@@ -44,9 +54,11 @@ export const CollaborationBadge = ({
         className="w-4 h-4"
       />
 
-      <div className="text-xs font-medium px-2 py-1 bg-white/10 rounded-full">
-        collab
-      </div>
+      {collaborator && (
+        <div className="text-xs font-medium px-2 py-1 bg-white/10 rounded-full">
+          collab
+        </div>
+      )}
     </div>
   );
 };
