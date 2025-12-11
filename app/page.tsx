@@ -216,7 +216,7 @@ export default function HomePage() {
           {/* Left Column - Top Posts */}
           <GridPosts
             posts={transformToRecentPosts(data.topPosts)}
-            className="col-span-7"
+            className="lg:col-span-7"
           />
 
           {/* Right Column - Merchant Spotlight */}

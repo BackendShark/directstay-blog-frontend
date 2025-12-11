@@ -1,72 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Search, MapPin, Calendar, Eye, MessageSquare, Bookmark, ChevronRight } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Search,
+  MapPin,
+  Calendar,
+  Eye,
+  MessageSquare,
+  Bookmark,
+  ChevronRight,
+} from "lucide-react";
 
-export default function HostProfilePage({ params }: { params: { hostId: string } }) {
-  const [activeCategory, setActiveCategory] = useState("All")
+export default function HostProfilePage({
+  params,
+}: {
+  params: { hostId: string };
+}) {
+  const [activeCategory, setActiveCategory] = useState("All");
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg flex items-center justify-center">
-                <div className="w-6 h-6 bg-white rounded-sm transform rotate-45"></div>
-              </div>
-              <span className="text-xl font-bold">
-                DIRECT<span className="font-normal">STAY</span>
-              </span>
-            </Link>
-            <nav className="flex items-center gap-8">
-              <Link href="/" className="text-gray-600 hover:text-blue-600">
-                HOME
-              </Link>
-              <Link href="/merchants" className="text-gray-600 hover:text-blue-600">
-                MERCHANTS
-              </Link>
-              <Link href="/hosts" className="text-blue-600 font-medium">
-                HOSTS
-              </Link>
-              <Link href="/support" className="text-gray-600 hover:text-blue-600">
-                SUPPORT
-              </Link>
-            </nav>
-            <div className="flex items-center gap-4">
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              </button>
-              <div className="flex items-center gap-2 text-sm">
-                <MapPin className="w-4 h-4" />
-                <span>Alabama, US</span>
-              </div>
-              <button className="p-2 hover:bg-gray-100 rounded-full">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center gap-2 text-sm text-gray-600">
@@ -95,16 +51,27 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
             <div className="flex-1">
               <h3 className="text-xl font-bold mb-2">Gabriella Montez</h3>
               <p className="text-gray-600 mb-2">
-                Smart furniture choices and layout tricks merchants recommend for turning compact. Smart furniture
-                choices and layout tricks merchants recommend for turning compact.
+                Smart furniture choices and layout tricks merchants recommend
+                for turning compact. Smart furniture choices and layout tricks
+                merchants recommend for turning compact.
               </p>
               <p className="text-sm text-gray-500">Member since Aug 26, 2025</p>
             </div>
             <div className="flex gap-3">
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">Request for Sponsorship</Button>
-              <Button variant="outline" className="px-6 flex items-center gap-2 bg-transparent">
+              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6">
+                Request for Sponsorship
+              </Button>
+              <Button
+                variant="outline"
+                className="px-6 flex items-center gap-2 bg-transparent"
+              >
                 View Listings
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -113,7 +80,9 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                   />
                 </svg>
               </Button>
-              <button className="text-blue-600 hover:underline text-sm font-medium">Learn more</button>
+              <button className="text-blue-600 hover:underline text-sm font-medium">
+                Learn more
+              </button>
             </div>
           </div>
         </div>
@@ -131,7 +100,9 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
               <Link key={i} href="/blog/host-listing-1" className="group">
                 <div className="relative rounded-lg overflow-hidden mb-3">
                   <Image
-                    src={`https://blob.v0.app/${i === 1 ? "T23zG" : i === 2 ? "MDnVb" : "cquHL"}.jpg`}
+                    src={`https://blob.v0.app/${
+                      i === 1 ? "T23zG" : i === 2 ? "MDnVb" : "cquHL"
+                    }.jpg`}
                     alt="Property"
                     width={400}
                     height={300}
@@ -150,7 +121,8 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                   </div>
                 </div>
                 <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 line-clamp-2">
-                  Casey's Cabin-Callaway Gardens Area -Historic Property-Lake- Pool-Trails
+                  Casey's Cabin-Callaway Gardens Area -Historic Property-Lake-
+                  Pool-Trails
                 </h3>
               </Link>
             ))}
@@ -175,8 +147,18 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
             <div className="flex items-center gap-2">
               <span className="text-sm">Sort:</span>
               <button className="flex items-center gap-1 text-sm font-medium">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
                 Newest
               </button>
@@ -186,7 +168,10 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
           <div className="flex items-center gap-3 mb-6">
             <span className="text-sm font-medium">Popular Searches:</span>
             {["Home", "Garden", "Restaurant"].map((search) => (
-              <button key={search} className="px-3 py-1 text-sm rounded-full border hover:bg-gray-50">
+              <button
+                key={search}
+                className="px-3 py-1 text-sm rounded-full border hover:bg-gray-50"
+              >
                 {search}
               </button>
             ))}
@@ -229,14 +214,19 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                       <Bookmark className="w-4 h-4" />
                     </button>
                   </div>
-                  <h3 className="font-semibold mb-2 group-hover:text-blue-600">Want to get sponsored?</h3>
+                  <h3 className="font-semibold mb-2 group-hover:text-blue-600">
+                    Want to get sponsored?
+                  </h3>
                   <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                    Smart furniture choices and layout tricks merchants recommend for turning compact.
+                    Smart furniture choices and layout tricks merchants
+                    recommend for turning compact.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
                       <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500"></div>
-                      <span className="text-sm font-medium">Gabriella montez</span>
+                      <span className="text-sm font-medium">
+                        Gabriella montez
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
@@ -263,7 +253,11 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
             <h2 className="text-xl font-bold mb-6">Top Post</h2>
             <div className="space-y-4">
               {[1, 2, 3, 4].map((i) => (
-                <Link key={i} href="/blog/top-post" className="flex gap-3 group">
+                <Link
+                  key={i}
+                  href="/blog/top-post"
+                  className="flex gap-3 group"
+                >
                   <Image
                     src="/images/attachments-gen-images-public-beautiful-modern-house-with-garden.jpg"
                     alt="Post"
@@ -276,11 +270,14 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                       Want to get sponsored?
                     </h3>
                     <p className="text-xs text-gray-600 mb-2 line-clamp-1">
-                      Smart furniture choices and layout tricks merchants recommend for turning compact.
+                      Smart furniture choices and layout tricks merchants
+                      recommend for turning compact.
                     </p>
                     <div className="flex items-center gap-2 mb-1">
                       <div className="w-4 h-4 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500"></div>
-                      <span className="text-xs font-medium">Gabriella montez</span>
+                      <span className="text-xs font-medium">
+                        Gabriella montez
+                      </span>
                     </div>
                     <div className="flex items-center gap-3 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
@@ -308,9 +305,17 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
           <h2 className="text-xl font-bold mb-6">For You</h2>
           <div className="grid grid-cols-2 gap-6">
             {[1, 2].map((i) => (
-              <Link key={i} href="/blog/for-you" className="group relative rounded-xl overflow-hidden h-64">
+              <Link
+                key={i}
+                href="/blog/for-you"
+                className="group relative rounded-xl overflow-hidden h-64"
+              >
                 <Image
-                  src={i === 1 ? "https://blob.v0.app/wF8xY.jpg" : "https://blob.v0.app/zG3kL.jpg"}
+                  src={
+                    i === 1
+                      ? "https://blob.v0.app/wF8xY.jpg"
+                      : "https://blob.v0.app/zG3kL.jpg"
+                  }
                   alt="Featured"
                   width={600}
                   height={400}
@@ -318,9 +323,12 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-xl font-bold mb-2">How Hosts Can Transform Small Spaces</h3>
+                  <h3 className="text-xl font-bold mb-2">
+                    How Hosts Can Transform Small Spaces
+                  </h3>
                   <p className="text-sm text-white/90 mb-3">
-                    Smart furniture choices and layout tricks merchants recommend for turning compact.
+                    Smart furniture choices and layout tricks merchants
+                    recommend for turning compact.
                   </p>
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2">
@@ -328,7 +336,9 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                       <span className="text-sm font-medium">DirectStay</span>
                       <span className="text-yellow-400">★</span>
                     </div>
-                    <span className="px-2 py-1 bg-yellow-500/20 backdrop-blur-sm text-xs rounded">Collab</span>
+                    <span className="px-2 py-1 bg-yellow-500/20 backdrop-blur-sm text-xs rounded">
+                      Collab
+                    </span>
                     <span className="flex items-center gap-1 text-sm">
                       <Calendar className="w-4 h-4" />
                       Nov 18
@@ -366,9 +376,12 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
                     <Bookmark className="w-4 h-4" />
                   </button>
                 </div>
-                <h3 className="font-semibold mb-2 group-hover:text-blue-600">Want to get sponsored?</h3>
+                <h3 className="font-semibold mb-2 group-hover:text-blue-600">
+                  Want to get sponsored?
+                </h3>
                 <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                  Smart furniture choices and layout tricks merchants recommend for turning compact.
+                  Smart furniture choices and layout tricks merchants recommend
+                  for turning compact.
                 </p>
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-5 h-5 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500"></div>
@@ -402,123 +415,28 @@ export default function HostProfilePage({ params }: { params: { hostId: string }
         {/* CTA Section */}
         <div className="relative rounded-2xl overflow-hidden mb-12 bg-gradient-to-r from-blue-600 to-blue-700 p-12 text-center text-white">
           <div className="relative z-10">
-            <h2 className="text-3xl font-bold mb-3">Become a Host with DirectStay</h2>
+            <h2 className="text-3xl font-bold mb-3">
+              Become a Host with DirectStay
+            </h2>
             <p className="text-blue-100 mb-6">
-              Connect with travelers, share your space, and join a community of hosts earning together.
+              Connect with travelers, share your space, and join a community of
+              hosts earning together.
             </p>
-            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8">Become a host</Button>
+            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8">
+              Become a host
+            </Button>
           </div>
           <div className="absolute inset-0 opacity-10">
-            <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+            >
               <path d="M0,0 L100,0 L100,100 Z" fill="white" />
             </svg>
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="border-t bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="grid grid-cols-6 gap-8 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-lg"></div>
-                <span className="font-bold">DIRECTSTAY</span>
-              </div>
-              <p className="text-sm text-gray-600">Your direct connection to unique stays around the world</p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Company</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/about">About Us</Link>
-                </li>
-                <li>
-                  <Link href="/press">Press</Link>
-                </li>
-                <li>
-                  <Link href="/testimonials">Testimonials</Link>
-                </li>
-                <li>
-                  <Link href="/affiliate">Affiliate Program</Link>
-                </li>
-                <li>
-                  <Link href="/blog">Blog</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Support</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/contact">Contact</Link>
-                </li>
-                <li>
-                  <Link href="/help">Help Center / Support Team</Link>
-                </li>
-                <li>
-                  <Link href="/forum">Community Forum</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Community</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/direct-staying">DirectStaying</Link>
-                </li>
-                <li>
-                  <Link href="/host-community">Host Community</Link>
-                </li>
-                <li>
-                  <Link href="/policies">Cancellation & Refund Policy</Link>
-                </li>
-                <li>
-                  <Link href="/refund-policy">Payment & Refund Policy</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Policies</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/privacy">Privacy Policy</Link>
-                </li>
-                <li>
-                  <Link href="/press">Press Policy</Link>
-                </li>
-                <li>
-                  <Link href="/standards">Community Standards & Conduct Policy</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-3">Partners</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li>
-                  <Link href="/tips">Tips</Link>
-                </li>
-                <li>
-                  <Link href="/guidespost">Guidespost</Link>
-                </li>
-                <li>
-                  <Link href="/gift">Gift Science</Link>
-                </li>
-                <li>
-                  <Link href="/press-pay">Press Pay Substract</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="pt-8 border-t flex items-center justify-between text-sm text-gray-600">
-            <p>2025 DirectStay, Inc. All rights reserved.</p>
-            <div className="flex items-center gap-6">
-              <Link href="/terms">Terms</Link>
-              <Link href="/sitemap">Sitemap</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
-  )
+  );
 }

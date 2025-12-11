@@ -25,6 +25,14 @@ import type {
   FeaturedCarouselItem,
 } from "@/lib/types";
 import { SearchFilters } from "@/components/search-filters";
+import { GridPosts } from "@/components/grid-posts";
+import { ListPosts } from "@/components/list-posts";
+import ForYou from "@/components/for-you";
+import { MostRead } from "@/components/most-read";
+import { FeaturedCarousel } from "@/components/featured-carousel";
+import { AllPosts } from "@/components/all-posts";
+import { PlacesToVisit } from "@/components/places-to-visit";
+import { CtaSection } from "@/components/cta-section";
 
 export default function MerchantsPage() {
   const [loading, setLoading] = useState(true);
@@ -128,519 +136,421 @@ export default function MerchantsPage() {
           initialCategory={selectedCategory}
         />
         {/* Recent Post and Top Post Section */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          {/* Recent Post - 2 columns */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Recent Post</h2>
-            </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((item) => (
-                <Link
-                  key={item}
-                  href={`/blog/merchant-recent-post-${item}`}
-                  className="group bg-white rounded-2xl overflow-hidden border hover:shadow-lg transition-shadow"
-                >
-                  <div className="relative aspect-[4/3]">
-                    <img
-                      src={`/merchant-property-.jpg?height=300&width=400&query=merchant property ${item}`}
-                      alt="Property"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 group-hover:text-blue-600">
-                      Want to get sponsored?
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Smart furniture choices and layout tricks merchants
-                      recommend for turning compact.
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                          <span className="text-white text-[10px] font-bold">
-                            GM
-                          </span>
-                        </div>
-                        <span className="text-sm font-medium">
-                          Gabriela montez
-                        </span>
-                        <span className="text-yellow-400 text-xs">⭐</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" />
-                        Nov 18
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5" />
-                        3.8k
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MessageCircle className="w-3.5 h-3.5" />
-                        3.8k
-                      </span>
-                      <button className="ml-auto">
-                        <Bookmark className="w-4 h-4 text-gray-400 hover:text-blue-600" />
-                      </button>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          {/* Top Post - 1 column */}
-          <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Top Post</h2>
-            </div>
-            <div className="space-y-4">
-              {[1, 2, 3, 4].map((item) => (
-                <Link
-                  key={item}
-                  href={`/blog/merchant-top-post-${item}`}
-                  className="flex gap-4 group"
-                >
-                  <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden">
-                    <img
-                      src={`/top-merchant-.jpg?height=100&width=100&query=top merchant ${item}`}
-                      alt="Post"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-sm mb-2 group-hover:text-blue-600 line-clamp-2">
-                      Want to get sponsored?
-                    </h3>
-                    <p className="text-xs text-gray-600 mb-2 line-clamp-2">
-                      Smart furniture choices and layout tricks merchants
-                      recommend for turning compact.
-                    </p>
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
-                        <span className="text-white text-[8px] font-bold">
-                          GM
-                        </span>
-                      </div>
-                      <span className="text-xs font-medium">
-                        Gabriela montez
-                      </span>
-                      <span className="text-yellow-400 text-[10px]">⭐</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-gray-500">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        Nov 18
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3 h-3" />
-                        2.1k
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MessageCircle className="w-3 h-3" />
-                        3.8k
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* For You Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">For You</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 sm:mb-12">
+          {/* Recent Post - Left (2 columns) */}
+          <GridPosts
+            posts={[
               {
-                title: "How Hosts Can Transform Small Spaces",
-                image: "pharmacy interior with pharmacist",
+                id: "1",
+                title: "Want to get sponsored?",
+                excerpt:
+                  "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
+                image: "/luxury-apartment-interior.png",
+                author: {
+                  name: "Gabriella Montez",
+                  avatar: "/placeholder.svg",
+                },
+                publishDate: "Nov 18",
+                likes: "3.8k",
+                comments: "3.8k",
+                href: "/blog/general-blog-post",
               },
               {
-                title: "How Hosts Can Transform Small Spaces",
-                image: "people dining restaurant",
+                id: "2",
+                title: "Modern Interior Design Trends",
+                excerpt:
+                  "Discover the latest interior design trends that are transforming rental properties worldwide.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: {
+                  name: "Sarah Wilson",
+                  avatar: "/placeholder.svg",
+                },
+                publishDate: "Nov 16",
+                likes: "2.5k",
+                comments: "1.8k",
+                href: "/blog/modern-interior-design",
               },
-            ].map((item, index) => (
-              <Link
-                key={index}
-                href={`/blog/for-you-merchant-${index + 1}`}
-                className="relative group rounded-2xl overflow-hidden aspect-[16/9]"
-              >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10"></div>
-                <img
-                  src={`/.jpg?height=400&width=700&query=${item.image}`}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 z-20 flex flex-col justify-end p-8">
-                  <h3 className="text-2xl font-bold text-white mb-4">
-                    {item.title}
-                  </h3>
-                  <p className="text-white/90 text-sm mb-4">
-                    Smart furniture choices and layout tricks merchants
-                    recommend for turning compact.
-                  </p>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">DS</span>
-                      </div>
-                      <span className="text-white text-sm font-medium">
-                        DirectStay
-                      </span>
-                      <span className="text-yellow-400 text-sm">⭐</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-white/80 text-sm">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3.5 h-3.5" />
-                        Nov 18
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Eye className="w-3.5 h-3.5" />
-                        2.1k
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <MessageCircle className="w-3.5 h-3.5" />
-                        3.8k
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* All Post Section */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">All Post</h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((item) => (
-              <Link
-                key={item}
-                href={`/blog/all-merchant-post-${item}`}
-                className="group bg-white rounded-2xl overflow-hidden border hover:shadow-lg transition-shadow"
-              >
-                <div className="relative aspect-[4/3]">
-                  <img
-                    src={`/merchant-listing-.jpg?height=300&width=400&query=merchant listing ${item}`}
-                    alt="Property"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-2 group-hover:text-blue-600">
-                    Want to get sponsored?
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Smart furniture choices and layout tricks merchants
-                    recommend for turning compact.
-                  </p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-white text-[10px] font-bold">
-                        DS
-                      </span>
-                    </div>
-                    <span className="text-sm font-medium">DirectStay</span>
-                    <span className="text-yellow-400 text-xs">⭐</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      Nov 18
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Eye className="w-3.5 h-3.5" />
-                      2.1k
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      3.8k
-                    </span>
-                    <button className="ml-auto">
-                      <Bookmark className="w-4 h-4 text-gray-400 hover:text-blue-600" />
-                    </button>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Featured Carousel Banner */}
-        <div className="relative rounded-3xl overflow-hidden mb-12 h-[400px]">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent z-10"></div>
-          <img
-            src="/modern-architecture-facade.jpg"
-            alt="Featured"
-            className="w-full h-full object-cover"
+              {
+                id: "3",
+                title: "Hosting Best Practices",
+                excerpt:
+                  "Essential tips and strategies for becoming a successful host in today's competitive market.",
+                image: "/luxury-apartment-interior.png",
+                author: {
+                  name: "Mike Johnson",
+                  avatar: "/placeholder.svg",
+                },
+                publishDate: "Nov 14",
+                likes: "4.1k",
+                comments: "2.3k",
+                href: "/blog/hosting-best-practices",
+              },
+              {
+                id: "4",
+                title: "Revenue Optimization Guide",
+                excerpt:
+                  "Learn how to maximize your rental income with proven pricing and marketing strategies.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: {
+                  name: "Emma Davis",
+                  avatar: "/placeholder.svg",
+                },
+                publishDate: "Nov 12",
+                likes: "3.2k",
+                comments: "1.5k",
+                href: "/blog/revenue-optimization",
+              },
+            ]}
+            onBookmark={async (postId, bookmarked) => {
+              // Simulate API call
+              await new Promise((resolve) => setTimeout(resolve, 500));
+              console.log(
+                `Recent post ${postId} ${
+                  bookmarked ? "bookmarked" : "unbookmarked"
+                }`
+              );
+            }}
+            onLike={async (postId) => {
+              // Simulate API call
+              await new Promise((resolve) => setTimeout(resolve, 300));
+              console.log(`Recent post ${postId} liked`);
+            }}
           />
-          <div className="absolute inset-0 z-20 flex flex-col justify-end p-12">
-            <span className="inline-block w-fit px-3 py-1 bg-yellow-500 text-black text-xs font-semibold rounded mb-4">
-              Featured
-            </span>
-            <h2 className="text-3xl font-bold text-white mb-4">
-              How Hosts Can Transform Small Spaces
-            </h2>
-            <p className="text-white/90 text-lg mb-6 max-w-2xl">
-              Smart furniture choices and layout tricks merchants recommend.
-            </p>
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center gap-2">
-                <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center">
-                  <span className="text-white text-sm font-bold">SC</span>
-                </div>
-                <span className="text-white font-medium">Switzer Contiddy</span>
-                <span className="text-yellow-400">⭐</span>
-                <span className="px-2 py-0.5 bg-white/20 backdrop-blur-sm text-white text-xs rounded">
-                  Collab
-                </span>
-              </div>
-              <div className="flex items-center gap-3 text-white/80 text-sm">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
-                  Nov 18, 2025
-                </span>
-                <span className="flex items-center gap-1">
-                  <Eye className="w-4 h-4" />
-                  10 mins read
-                </span>
-              </div>
-            </div>
-            <Button className="w-full bg-transparent border-2 border-white text-white hover:bg-white hover:text-black max-w-md">
-              Read
-            </Button>
-          </div>
 
-          <button className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 flex items-center justify-center">
-            <ChevronLeft className="w-5 h-5 text-white" />
-          </button>
-          <button className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 flex items-center justify-center">
-            <ChevronRight className="w-5 h-5 text-white" />
-          </button>
-        </div>
-
-        {/* All Post Section (Second Grid) */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">All Post</h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[5, 6, 7, 8].map((item) => (
-              <Link
-                key={item}
-                href={`/blog/all-merchant-post-${item}`}
-                className="group bg-white rounded-2xl overflow-hidden border hover:shadow-lg transition-shadow"
-              >
-                <div className="relative aspect-[4/3]">
-                  <img
-                    src={`/merchant-property-.jpg?height=300&width=400&query=merchant property ${item}`}
-                    alt="Property"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-2 group-hover:text-blue-600">
-                    Want to get sponsored?
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Smart furniture choices and layout tricks merchants
-                    recommend for turning compact.
-                  </p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                      <span className="text-white text-[10px] font-bold">
-                        DS
-                      </span>
-                    </div>
-                    <span className="text-sm font-medium">DirectStay</span>
-                    <span className="text-yellow-400 text-xs">⭐</span>
-                  </div>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <span className="flex items-center gap-1">
-                      <Calendar className="w-3.5 h-3.5" />
-                      Nov 18
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Eye className="w-3.5 h-3.5" />
-                      2.1k
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      3.8k
-                    </span>
-                    <button className="ml-auto">
-                      <Bookmark className="w-4 h-4 text-gray-400 hover:text-blue-600" />
-                    </button>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex justify-center">
-            <Button
-              variant="outline"
-              className="px-8 py-2 rounded-xl bg-transparent"
-            >
-              See More
-            </Button>
-          </div>
-        </div>
-
-        {/* Places to Visit This December */}
-        <div className="mb-12">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold mb-2">
-              Places to Visit This December
-            </h2>
-            <p className="text-gray-600">
-              Explore fun destinations, festive events, and exciting cities you
-              can travel to this holiday season in Alabama.
-            </p>
-          </div>
-
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-            {[
-              "All",
-              "Beaches",
-              "Festivals",
-              "Family Trips",
-              "Nightlife",
-              "Adventure",
-            ].map((category, index) => (
-              <button
-                key={category}
-                className={`px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors ${
-                  index === 0
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
+          {/* Top Post - Right */}
+          <ListPosts
+            posts={[
               {
-                name: "Lagos Beachfront Escape",
-                category: "Beach",
-                distance: "42 km away",
+                id: "1",
+                title: "Want to get sponsored?",
+                excerpt:
+                  "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: {
+                  name: "DirectStay",
+                  initials: "DS",
+                },
+                publishDate: "Nov 18",
+                views: "3.8k",
+                comments: "3.8k",
+                href: "/blog/general-blog-post",
               },
               {
-                name: "Calabar Carnival Village",
-                category: "Festival",
-                distance: "744 km away",
+                id: "2",
+                title: "Maximizing Small Spaces",
+                excerpt:
+                  "Transform your compact rental into a spacious haven with these proven design strategies.",
+                image: "/luxury-apartment-interior.png",
+                author: {
+                  name: "DirectStay",
+                  initials: "DS",
+                },
+                publishDate: "Nov 15",
+                views: "2.1k",
+                comments: "1.2k",
+                href: "/blog/maximizing-small-spaces",
               },
               {
-                name: "Abuja Weekend City Break",
-                category: "City Break",
-                distance: "536 km away",
+                id: "3",
+                title: "Guest Experience Tips",
+                excerpt:
+                  "5 essential tips to create memorable experiences that keep guests coming back.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: {
+                  name: "DirectStay",
+                  initials: "DS",
+                },
+                publishDate: "Nov 12",
+                views: "1.9k",
+                comments: "890",
+                href: "/blog/guest-experience-tips",
               },
               {
-                name: "Elegushi Beachfront",
-                category: "Beach",
-                distance: "28 km away",
+                id: "4",
+                title: "Property Photography Guide",
+                excerpt:
+                  "Professional photography techniques that make your listings stand out from the competition.",
+                image: "/luxury-apartment-interior.png",
+                author: {
+                  name: "DirectStay",
+                  initials: "DS",
+                },
+                publishDate: "Nov 10",
+                views: "1.5k",
+                comments: "650",
+                href: "/blog/property-photography-guide",
               },
-            ].map((place, index) => (
-              <div key={index} className="group">
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-3">
-                  <img
-                    src={`/.jpg?height=300&width=400&query=${place.name}`}
-                    alt={place.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <h3 className="font-semibold text-lg mb-1">{place.name}</h3>
-                <p className="text-sm text-gray-600">
-                  {place.category} • {place.distance}
-                </p>
-              </div>
-            ))}
-          </div>
+            ]}
+          />
         </div>
 
-        {/* Promotional Cards (Repeat) */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          <div className="flex gap-4 p-6 bg-white border rounded-2xl hover:shadow-md transition-shadow">
-            <img
-              src="/sponsored-posts-badge.jpg"
-              alt="Sponsored Posts"
-              className="w-20 h-20 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg mb-2">
-                Want to get sponsored?
-              </h3>
-              <p className="text-sm text-gray-600 mb-3">
-                Smart furniture choices and layout tricks merchants recommend
-                for turning compact.
-              </p>
-              <Button
-                variant="link"
-                className="p-0 h-auto text-blue-600 font-medium"
-              >
-                Read More
-              </Button>
-            </div>
+        {/* For You */}
+        <div className="mb-8 sm:mb-12">
+          <div className="mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold">For You</h2>
           </div>
-
-          <div className="flex gap-4 p-6 bg-white border rounded-2xl hover:shadow-md transition-shadow">
-            <img
-              src="/becoming-a-host.jpg"
-              alt="Becoming a host"
-              className="w-20 h-20 rounded-lg object-cover"
-            />
-            <div className="flex-1">
-              <h3 className="font-semibold text-lg mb-2">Becoming a host</h3>
-              <p className="text-sm text-gray-600 mb-3">
-                Smart furniture choices and layout tricks merchants recommend
-                for turning compact.
-              </p>
-              <Button
-                variant="link"
-                className="p-0 h-auto text-blue-600 font-medium"
-              >
-                Read More
-              </Button>
-            </div>
-          </div>
+          <ForYou
+            items={[
+              {
+                id: 1,
+                slug: "transform-small-spaces",
+                title: "How Hosts Can Transform Small Spaces",
+                description:
+                  "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
+                image: "/beautiful-modern-house-with-garden.jpg",
+                collaborator: {
+                  logo: "/placeholder.svg",
+                  name: "Gabriella montez",
+                },
+                publishedAt: "Nov 18",
+                views: "3.8k",
+                comments: "3.8k",
+              },
+              {
+                id: 2,
+                slug: "luxury-design-trends",
+                title: "Luxury Property Design Trends",
+                description:
+                  "Explore the latest luxury design trends that are captivating high-end property guests and increasing booking rates.",
+                image: "/beautiful-modern-house-with-garden.jpg",
+                collaborator: {
+                  logo: "/placeholder.svg",
+                  name: "Design Expert",
+                },
+                publishedAt: "Nov 15",
+                views: "2.9k",
+                comments: "89",
+              },
+            ]}
+          />
         </div>
 
-        {/* CTA Section */}
-        <div className="relative rounded-3xl overflow-hidden mb-12 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 p-16 text-center">
-          <div className="relative z-10">
-            <h2 className="text-4xl font-bold text-white mb-4">
-              Become a Host with DirectStay
-            </h2>
-            <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-              Connect with travelers, share your space, and join a community of
-              hosts earning together.
-            </p>
-            <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 rounded-xl font-semibold">
-              Become a host
-            </Button>
-          </div>
-          <div className="absolute inset-0 opacity-10">
-            <svg viewBox="0 0 400 400" className="w-full h-full">
-              <path
-                d="M100 200 L150 150 L150 250 Z M250 150 L200 200 L250 250 Z"
-                fill="white"
-              />
-            </svg>
-          </div>
+        <MostRead
+          posts={[
+            {
+              id: "1",
+              title: "Want to get sponsored?",
+              excerpt:
+                "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
+              image: "/cozy-vacation-rental-bedroom.jpg",
+              author: {
+                name: "DirectStay",
+                verified: true,
+              },
+              publishDate: "Nov 18",
+              views: "3.8k",
+              comments: "3.8k",
+              href: "/blog/general-blog-post",
+            },
+            {
+              id: "2",
+              title: "Maximizing Small Spaces",
+              excerpt:
+                "Transform your compact rental into a spacious haven with these proven design strategies.",
+              image: "/luxury-apartment-interior.png",
+              author: {
+                name: "DirectStay",
+                verified: true,
+              },
+              publishDate: "Nov 16",
+              views: "2.5k",
+              comments: "1.8k",
+              href: "/blog/maximizing-small-spaces",
+            },
+            {
+              id: "3",
+              title: "Hosting Best Practices",
+              excerpt:
+                "Essential tips and strategies for becoming a successful host in today's competitive market.",
+              image: "/cozy-vacation-rental-bedroom.jpg",
+              author: {
+                name: "DirectStay",
+                verified: true,
+              },
+              publishDate: "Nov 14",
+              views: "4.1k",
+              comments: "2.3k",
+              href: "/blog/hosting-best-practices",
+            },
+            {
+              id: "4",
+              title: "Revenue Optimization Guide",
+              excerpt:
+                "Learn how to maximize your rental income with proven pricing and marketing strategies.",
+              image: "/luxury-apartment-interior.png",
+              author: {
+                name: "DirectStay",
+                verified: true,
+              },
+              publishDate: "Nov 12",
+              views: "3.2k",
+              comments: "1.5k",
+              href: "/blog/revenue-optimization",
+            },
+          ]}
+          onBookmark={async (postId, bookmarked) => {
+            // Simulate API call
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            console.log(
+              `Most read post ${postId} ${
+                bookmarked ? "bookmarked" : "unbookmarked"
+              }`
+            );
+          }}
+        />
+
+        {/* Featured Article Carousel */}
+        <div className="mb-8 sm:mb-12">
+          <FeaturedCarousel items={data.featuredCarousel} />
         </div>
+
+        {/* All Post */}
+        <AllPosts
+          posts={[
+            {
+              id: "1",
+              title: "Property Investment Strategies for 2025",
+              excerpt:
+                "Discover the most effective property investment strategies that are driving success in today's market.",
+              image: "/luxury-apartment-interior.png",
+              author: {
+                name: "DirectStay",
+                verified: true,
+              },
+              publishDate: "Nov 18",
+              views: "5.2k",
+              comments: "89",
+              href: "/blog/property-investment-strategies",
+            },
+            {
+              id: "2",
+              title: "Smart Home Technology for Rentals",
+              excerpt:
+                "How to integrate smart home features that increase property value and attract tech-savvy tenants.",
+              image: "/cozy-vacation-rental-bedroom.jpg",
+              author: {
+                name: "Tech Homes",
+                verified: true,
+              },
+              publishDate: "Nov 16",
+              views: "3.8k",
+              comments: "67",
+              href: "/blog/smart-home-technology",
+            },
+            {
+              id: "3",
+              title: "Sustainable Property Management",
+              excerpt:
+                "Eco-friendly practices that reduce costs and appeal to environmentally conscious renters.",
+              image: "/beautiful-modern-house-with-garden.jpg",
+              author: {
+                name: "Green Living",
+                verified: true,
+              },
+              publishDate: "Nov 14",
+              views: "4.1k",
+              comments: "92",
+              href: "/blog/sustainable-property-management",
+            },
+            {
+              id: "4",
+              title: "Legal Compliance for Property Hosts",
+              excerpt:
+                "Essential legal requirements and compliance guidelines every property host must know.",
+              image: "/luxury-apartment-interior.png",
+              author: {
+                name: "Legal Experts",
+                verified: true,
+              },
+              publishDate: "Nov 12",
+              views: "2.9k",
+              comments: "45",
+              href: "/blog/legal-compliance",
+            },
+          ]}
+          hasMore={true}
+          onBookmark={async (postId, bookmarked) => {
+            // Simulate API call
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            console.log(
+              `All post ${postId} ${bookmarked ? "bookmarked" : "unbookmarked"}`
+            );
+          }}
+          onLoadMore={async (page) => {
+            // Simulate API call for loading more posts
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            // Return more property-related posts
+            const morePosts = [
+              {
+                id: `${page.toString()}-1`,
+                title: "Property Maintenance Best Practices",
+                excerpt:
+                  "Preventive maintenance strategies that save money and keep tenants happy.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: { name: "Maintenance Pro", verified: true },
+                publishDate: "Nov 10",
+                views: "1.8k",
+                comments: "34",
+                href: "/blog/property-maintenance",
+              },
+              {
+                id: `${page.toString()}-2`,
+                title: "Market Analysis: Property Trends",
+                excerpt:
+                  "Current market trends and predictions for the property rental industry.",
+                image: "/beautiful-modern-house-with-garden.jpg",
+                author: { name: "Market Analyst", verified: true },
+                publishDate: "Nov 08",
+                views: "2.3k",
+                comments: "56",
+                href: "/blog/market-analysis",
+              },
+              {
+                id: `${page.toString()}-3`,
+                title: "Insurance for Property Owners",
+                excerpt:
+                  "Comprehensive guide to property insurance options and coverage requirements.",
+                image: "/luxury-apartment-interior.png",
+                author: { name: "Insurance Guide", verified: true },
+                publishDate: "Nov 06",
+                views: "1.5k",
+                comments: "28",
+                href: "/blog/property-insurance",
+              },
+              {
+                id: `${page.toString()}-4`,
+                title: "Tenant Screening Process",
+                excerpt:
+                  "Effective strategies for screening tenants and reducing rental risks.",
+                image: "/cozy-vacation-rental-bedroom.jpg",
+                author: { name: "Rental Expert", verified: true },
+                publishDate: "Nov 04",
+                views: "3.1k",
+                comments: "73",
+                href: "/blog/tenant-screening",
+              },
+            ];
+
+            console.log(`Loading page ${page} with ${morePosts.length} posts`);
+            return morePosts;
+          }}
+        />
+
+        {/* Places to Visit */}
+        <div className="mb-8 sm:mb-12">
+          <PlacesToVisit
+            title="Places to Visit This December"
+            description="Explore fun destinations, festive events, and exciting cities you can travel to this holiday season in Alabama"
+            places={data.places}
+            categories={data.categories}
+            onCategoryChange={(category) =>
+              console.log("Selected category:", category)
+            }
+          />
+        </div>
+
+        <CtaSection />
       </main>
     </div>
   );

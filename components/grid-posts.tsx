@@ -124,7 +124,7 @@ export function GridPosts({
   };
 
   return (
-    <div className={`lg:col-span-2 ${className}`}>
+    <div className={className || "lg:col-span-2"}>
       <div className="mb-4 sm:mb-6">
         <h2 className="text-lg sm:text-xl font-bold">{title}</h2>
         <Underline className="w-[20%]" />

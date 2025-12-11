@@ -89,42 +89,6 @@ export default function BlogPost({
     },
   ]);
 
-  const relatedPosts = [
-    {
-      id: 1,
-      title: "Want to get sponsored?",
-      description:
-        "Smart furniture choices and layout tricks merchants recommend for turning compact.",
-      author: "DirectStay",
-      date: "Nov 18",
-      views: "1.6k",
-      comments: "3.8k",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-    {
-      id: 2,
-      title: "Want to get sponsored?",
-      description:
-        "Smart furniture choices and layout tricks merchants recommend for turning compact.",
-      author: "DirectStay",
-      date: "Nov 18",
-      views: "1.6k",
-      comments: "3.8k",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-    {
-      id: 3,
-      title: "Want to get sponsored?",
-      description:
-        "Smart furniture choices and layout tricks merchants recommend for turning compact.",
-      author: "DirectStay",
-      date: "Nov 18",
-      views: "1.6k",
-      comments: "3.8k",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-  ];
-
   const sidebarPosts = [
     {
       id: "how-to-maximize-rental-income",
@@ -315,7 +279,7 @@ export default function BlogPost({
                 <>
                   <div className="border rounded-2xl p-6 text-center">
                     <Avatar className="h-16 w-16 mx-auto mb-3">
-                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarImage src="/top-merchant-.jpg" />
                       <AvatarFallback>SC</AvatarFallback>
                     </Avatar>
                     <h3 className="font-semibold mb-1">Stellar Condosky</h3>
@@ -357,40 +321,16 @@ export default function BlogPost({
                       Visit Business <ExternalLink className="h-4 w-4 ml-2" />
                     </Button>
                   </div>
-                  <div className="border rounded-2xl p-6">
-                    <h3 className="font-semibold mb-4">Related posts</h3>
-                    <div className="space-y-3">
-                      {sidebarPosts.slice(0, 4).map((post) => (
-                        <Link
-                          key={post.id}
-                          href={`/blog/${post.id}`}
-                          className="flex gap-3 group"
-                        >
-                          <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image
-                              src={post.image || "/placeholder.svg"}
-                              alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-medium mb-1 line-clamp-2 group-hover:text-primary">
-                              {post.title}
-                            </h4>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <span>{post.author}</span>
-                              <span>•</span>
-                              <div className="flex items-center gap-1">
-                                <Eye className="h-3 w-3" />
-                                {post.views}
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                  <RelatedTopics
+                    posts={sidebarPosts.map((post) => ({
+                      id: post.id,
+                      title: post.title,
+                      author: post.author,
+                      views: post.views,
+                      image: post.image,
+                      href: `/blog/${post.id}`,
+                    }))}
+                  />
                 </>
               )}
             </div>
@@ -510,68 +450,6 @@ export default function BlogPost({
                     </div>
                   </div>
                 )}
-
-                {/* Read More From The Writer */}
-                <section className="mt-16 py-12">
-                  <h2 className="text-2xl font-bold mb-6">
-                    Read More From The Writer
-                  </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {relatedPosts.map((post) => (
-                      <Link
-                        key={post.id}
-                        href={`/blog/${post.id}`}
-                        className="group"
-                      >
-                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-3">
-                          <Image
-                            src={post.image || "/placeholder.svg"}
-                            alt={post.title}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform"
-                          />
-                        </div>
-                        <h3 className="font-semibold mb-2 group-hover:text-primary">
-                          {post.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          {post.description}
-                        </p>
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-2">
-                            <Avatar className="h-5 w-5">
-                              <AvatarImage src="/placeholder.svg" />
-                              <AvatarFallback>DS</AvatarFallback>
-                            </Avatar>
-                            <span className="text-xs font-medium">
-                              {post.author}
-                            </span>
-                            <Badge
-                              variant="secondary"
-                              className="h-3 px-1 text-[8px]"
-                            >
-                              ✓
-                            </Badge>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground mt-2">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="h-3 w-3" />
-                            {post.date}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Eye className="h-3 w-3" />
-                            {post.views}
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MessageCircle className="h-3 w-3" />
-                            {post.comments}
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </section>
               </>
             )}
           </div>
@@ -652,41 +530,16 @@ export default function BlogPost({
                     </Button>
                   </div>
 
-                  {/* Related Posts */}
-                  <div className="border rounded-2xl p-6">
-                    <h3 className="font-semibold mb-4">Related posts</h3>
-                    <div className="space-y-3">
-                      {sidebarPosts.slice(0, 4).map((post) => (
-                        <Link
-                          key={post.id}
-                          href={`/blog/${post.id}`}
-                          className="flex gap-3 group"
-                        >
-                          <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                            <Image
-                              src={post.image || "/placeholder.svg"}
-                              alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform"
-                            />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-medium mb-1 line-clamp-2 group-hover:text-primary">
-                              {post.title}
-                            </h4>
-                            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                              <span>{post.author}</span>
-                              <span>•</span>
-                              <div className="flex items-center gap-1">
-                                <Eye className="h-3 w-3" />
-                                {post.views}
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                  <RelatedTopics
+                    posts={sidebarPosts.map((post) => ({
+                      id: post.id,
+                      title: post.title,
+                      author: post.author,
+                      views: post.views,
+                      image: post.image,
+                      href: `/blog/${post.id}`,
+                    }))}
+                  />
                 </>
               )}
             </div>
