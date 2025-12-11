@@ -240,18 +240,18 @@ export function SearchFilters({
   }, []);
 
   return (
-    <div className={`mb-6 ${className}`}>
+    <div className={`mb-4 sm:mb-6 ${className}`}>
       {/* Search Bar and Controls */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
         {/* Search Input */}
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
           <input
             type="text"
             placeholder="Search for post, merchant..."
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="min-w-md h-12 pl-12 pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+            className="w-full h-10 sm:h-12 pl-10 sm:pl-12 pr-3 sm:pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
 
@@ -259,15 +259,17 @@ export function SearchFilters({
         <div className="relative">
           <button
             onClick={() => setShowLocationDropdown(!showLocationDropdown)}
-            className="flex items-center gap-2 h-12 px-4 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 h-10 sm:h-12 px-3 sm:px-4 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto justify-between sm:justify-start"
           >
-            <MapPin className="w-4 h-4" />
-            <span className="max-w-40 truncate">{selectedLocation}</span>
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              <span className="max-w-32 sm:max-w-40 truncate">{selectedLocation}</span>
+            </div>
             <ChevronDown className="w-4 h-4" />
           </button>
 
           {showLocationDropdown && (
-            <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <div className="absolute top-full left-0 mt-1 w-full sm:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
               <div className="p-3 border-b border-gray-200">
                 <input
                   type="text"
@@ -309,7 +311,7 @@ export function SearchFilters({
         <div className="relative">
           <button
             onClick={() => setShowSortDropdown(!showSortDropdown)}
-            className="flex items-center gap-2 h-12 px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 h-10 sm:h-12 px-3 sm:px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors w-full sm:w-auto justify-between sm:justify-start border border-gray-300 sm:border-0 rounded-lg sm:rounded-none"
           >
             <span>Sort:</span>
             <span className="flex items-center gap-1">
@@ -338,14 +340,14 @@ export function SearchFilters({
       </div>
 
       {/* Popular Searches */}
-      <div className="mb-6">
+      <div className="mb-4 sm:mb-6">
         <p className="text-sm text-gray-600 mb-3">Popular Searches:</p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {POPULAR_SEARCHES.map((search) => (
             <button
               key={search}
               onClick={() => handlePopularSearch(search)}
-              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
             >
               {search}
             </button>
@@ -354,11 +356,11 @@ export function SearchFilters({
       </div>
 
       {/* Category Tabs */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2">
         {/* Left scroll button */}
         <button
           onClick={() => scrollCategories("left")}
-          className={`p-2 rounded-lg transition-colors shrink-0 ${
+          className={`p-1.5 sm:p-2 rounded-lg transition-colors shrink-0 ${
             canScrollLeft
               ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
@@ -366,13 +368,13 @@ export function SearchFilters({
           disabled={!canScrollLeft}
           aria-label="Scroll categories left"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Categories container */}
         <div
           ref={categoriesRef}
-          className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1"
+          className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide flex-1"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           onScroll={checkScrollButtons}
         >
@@ -380,7 +382,7 @@ export function SearchFilters({
             <button
               key={category}
               onClick={() => handleCategorySelect(category)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
                 selectedCategory === category
                   ? "bg-blue-600 text-white"
                   : "bg-white text-gray-700 hover:bg-gray-50"
@@ -394,7 +396,7 @@ export function SearchFilters({
         {/* Right scroll button */}
         <button
           onClick={() => scrollCategories("right")}
-          className={`p-2 rounded-lg transition-colors shrink-0 ${
+          className={`p-1.5 sm:p-2 rounded-lg transition-colors shrink-0 ${
             canScrollRight
               ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
@@ -402,7 +404,7 @@ export function SearchFilters({
           disabled={!canScrollRight}
           aria-label="Scroll categories right"
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
       </div>
 

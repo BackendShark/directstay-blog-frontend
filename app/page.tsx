@@ -175,7 +175,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Main Content */}
-      <main className="max-w-[1400px] mx-auto px-6 py-8">
+      <main className="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-8">
         <HeroCarousel items={data.carousel} />
 
         {/* Promotional Cards */}
@@ -194,7 +194,7 @@ export default function HomePage() {
         />
 
         {/* Content Grid */}
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
           {/* Left Column - Top Posts */}
           <TopPosts items={data.topPosts} />
 
