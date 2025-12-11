@@ -28,7 +28,7 @@ export const RootNav = ({ onLoginClick, onSignupClick }: RootNavProps) => {
       <header className="border-b bg-white sticky top-0 z-50">
         <div className="max-w-[1400px] mx-auto px-3 sm:px-4 lg:px-6 h-14 sm:h-16 flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image
               src="/assets/logo.svg"
               alt="DirectStay"
@@ -36,7 +36,7 @@ export const RootNav = ({ onLoginClick, onSignupClick }: RootNavProps) => {
               height={100}
               className="w-[100px] h-6 sm:w-24 sm:h-10"
             />
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
