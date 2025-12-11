@@ -5,7 +5,6 @@ import { HeroCarousel } from "@/components/hero-carousel";
 import { PromoCards } from "@/components/promo-cards";
 import { SearchFilters } from "@/components/search-filters";
 import { FeaturedCarousel } from "@/components/featured-carousel";
-import { RootNav } from "@/components/root-nav";
 import { AutomaticLocationPicker } from "@/components/automatic-location-picker";
 import { LoginModal } from "@/components/login-modal";
 import { SignupModal } from "@/components/signup-modal";
@@ -13,11 +12,10 @@ import { VerificationModal } from "@/components/verification-modal";
 import { PaymentModal } from "@/components/payment-modal";
 import { BusinessVerificationModal } from "@/components/business-verification-modal";
 import { SuccessModal } from "@/components/success-modal";
-import { Footer } from "@/components/footer";
+
 import { CtaSection } from "@/components/cta-section";
 import { FeaturedHost } from "@/components/featured-host";
 import { MerchantSpotlight } from "@/components/merchant-spotlight";
-import { TopPosts } from "@/components/top-posts";
 import { PlacesToVisit } from "@/components/places-to-visit";
 import { getHomepageData } from "@/lib/api/content";
 import type {

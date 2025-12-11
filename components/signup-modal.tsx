@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { X, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 interface SignupModalProps {
   isOpen: boolean;
@@ -31,16 +38,13 @@ export function SignupModal({ isOpen, onClose, onContinue }: SignupModalProps) {
         </button>
 
         <div className="flex justify-center mb-6">
-          <div className="relative w-12 h-12">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-400 rounded-xl"></div>
-            <svg
-              viewBox="0 0 32 32"
-              fill="white"
-              className="absolute inset-0 w-full h-full p-2"
-            >
-              <path d="M12 3L4 9v12h16V9L12 3z" />
-            </svg>
-          </div>
+          <Image
+            src="/assets/logo-login.svg"
+            alt="Top Merchant"
+            width={90}
+            height={90}
+            className="rounded-full"
+          />
         </div>
 
         <h2 className="text-2xl font-bold text-gray-900 text-center mb-2">

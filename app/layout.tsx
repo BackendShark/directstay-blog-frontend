@@ -1,10 +1,15 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Fira_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { RootNav } from "@/components/root-nav";
 import { Toaster } from "@/components/ui/toaster";
+import { LoginModal } from "@/components/login-modal";
+import { SignupModal } from "@/components/signup-modal";
+import { VerificationModal } from "@/components/verification-modal";
+import { useState } from "react";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -12,40 +17,37 @@ const firaSans = Fira_Sans({
   variable: "--font-fira-sans",
 });
 
-export const metadata: Metadata = {
-  title: "DirectStay - America's Host-Powered Direct Booking Platform",
-  description: "Connect with hosts and merchants across America. Book direct stays and discover local experiences.",
-  generator: "v0.app",
-  icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
-  },
-};
-
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  shrinkToFit: 'no',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+
+  const handleLoginClick = () => {
+    setShowLoginModal(true);
+  };
+
+  const handleSignupClick = () => {
+    setShowSignupModal(true);
+  };
+
+  const handleLoginToSignup = () => {
+    setShowLoginModal(false);
+    setShowSignupModal(true);
+  };
+
+  const handleSignupContinue = () => {
+    setShowSignupModal(false);
+    setShowVerificationModal(true);
+  };
+
+  const handleVerificationSubmit = () => {
+    setShowVerificationModal(false);
+  };
+
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -53,7 +55,7 @@ export default function RootLayout({
       </head>
       <body className={`${firaSans.variable} font-sans antialiased min-h-screen bg-white text-gray-900 overflow-x-hidden`}>
         <div className="flex flex-col min-h-screen">
-          <RootNav />
+          <RootNav onLoginClick={handleLoginClick} onSignupClick={handleSignupClick} />
           <main className="flex-1">
             {children}
           </main>
@@ -61,6 +63,25 @@ export default function RootLayout({
         </div>
         <Toaster />
         <Analytics />
+        
+        {/* Global Modals */}
+        <LoginModal
+          isOpen={showLoginModal}
+          onClose={() => setShowLoginModal(false)}
+          onSwitchToSignup={handleLoginToSignup}
+        />
+        
+        <SignupModal
+          isOpen={showSignupModal}
+          onClose={() => setShowSignupModal(false)}
+          onContinue={handleSignupContinue}
+        />
+        
+        <VerificationModal
+          isOpen={showVerificationModal}
+          onClose={() => setShowVerificationModal(false)}
+          onSubmit={handleVerificationSubmit}
+        />
       </body>
     </html>
   );
