@@ -124,12 +124,12 @@ export function GridPosts({
   };
 
   return (
-    <div className={` col-span-2 ${className}`}>
-      <div className="mb-6">
-        <h2 className="text-xl font-bold">{title}</h2>
+    <div className={`lg:col-span-2 ${className}`}>
+      <div className="mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl font-bold">{title}</h2>
         <Underline className="w-[20%]" />
       </div>
-      <div className={`grid grid-cols-${columns} gap-4`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {posts.map((post) => (
           <Link key={post.id} href={post.href} className="group">
             <div className="rounded-md overflow-hidden mb-3 relative">
@@ -138,13 +138,13 @@ export function GridPosts({
                 height={250}
                 src={post.image}
                 alt={post.title}
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+            <h3 className="text-sm sm:text-base font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
               {post.title}
             </h3>
-            <p className="text-sm text-gray-600 mb-3">{post.excerpt}</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-3">{post.excerpt}</p>
             {postBy.role === "admin" ? (
               <DirectStayBadge className="mb-2 sm:mb-3" />
             ) : (

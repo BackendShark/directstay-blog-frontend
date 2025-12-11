@@ -32,13 +32,13 @@ export const ListPosts = ({
 }: ListPostsProps) => {
   return (
     <div className={className}>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">{title}</h2>
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold">{title}</h2>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-3 sm:space-y-4">
         {posts.map((post) => (
-          <Link key={post.id} href={post.href} className="flex gap-4 group">
-            <div className="w-28 h-28 flex-shrink-0 rounded-sm overflow-hidden">
+          <Link key={post.id} href={post.href} className="flex gap-3 sm:gap-4 group">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 flex-shrink-0 rounded-sm overflow-hidden">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -48,10 +48,10 @@ export const ListPosts = ({
               />
             </div>
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-sm mb-2 group-hover:text-blue-600 line-clamp-2">
+              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 group-hover:text-blue-600 line-clamp-2">
                 {post.title}
               </h3>
-              <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+              <p className="text-xs text-gray-600 mb-1 sm:mb-2 line-clamp-2">
                 {post.excerpt}
               </p>
               {/* <div className="flex items-center gap-2 mb-2">
@@ -75,7 +75,7 @@ export const ListPosts = ({
                 <span className="text-yellow-400 text-[10px]">⭐</span>
               </div>  */}
               <CollaborationBadge />
-              <div className="flex items-center gap-3 text-xs text-gray-500">
+              <div className="flex items-center gap-2 sm:gap-3 text-xs text-gray-500 flex-wrap">
                 <span className="flex items-center gap-1">
                   <Calendar className="w-3 h-3" />
                   {post.publishDate}

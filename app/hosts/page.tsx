@@ -110,7 +110,7 @@ export default function HostsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className="max-w-[1400px] mx-auto px-6 py-8">
+      <main className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4 sm:py-8">
         <HeroCarousel items={data.carousel} />
         {/* Promotional Cards */}
         <PromoCards cards={data.promoCards} />
@@ -127,7 +127,7 @@ export default function HostsPage() {
         />
 
         {/* Recent Post and Top Post */}
-        <div className="grid grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 sm:mb-12">
           {/* Recent Post - Left (2 columns) */}
           <GridPosts
             posts={[
@@ -275,7 +275,9 @@ export default function HostsPage() {
           />
         </div>
         {/* Featured Article Carousel */}
-        <FeaturedCarousel items={data.featuredCarousel} />
+        <div className="mb-8 sm:mb-12">
+          <FeaturedCarousel items={data.featuredCarousel} />
+        </div>
         {/* Most Read */}
         <MostRead
           posts={[
@@ -463,8 +465,12 @@ export default function HostsPage() {
           ]}
         />
         {/* For You */}
-        <ForYou
-          items={[
+        <div className="mb-8 sm:mb-12">
+          <div className="mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold">For You</h2>
+          </div>
+          <ForYou
+            items={[
             {
               id: 1,
               slug: "transform-small-spaces",
@@ -496,7 +502,8 @@ export default function HostsPage() {
               comments: "89",
             },
           ]}
-        />
+          />
+        </div>
         {/* All Post */}
         <AllPosts
           posts={[
@@ -630,15 +637,17 @@ export default function HostsPage() {
           }}
         />
         {/* Places to Visit */}
-        <PlacesToVisit
-          title="Places to Visit This December"
-          description="Explore fun destinations, festive events, and exciting cities you can travel to this holiday season in Alabama"
-          places={data.places}
-          categories={data.categories}
-          onCategoryChange={(category) =>
-            console.log("Selected category:", category)
-          }
-        />
+        <div className="mb-8 sm:mb-12">
+          <PlacesToVisit
+            title="Places to Visit This December"
+            description="Explore fun destinations, festive events, and exciting cities you can travel to this holiday season in Alabama"
+            places={data.places}
+            categories={data.categories}
+            onCategoryChange={(category) =>
+              console.log("Selected category:", category)
+            }
+          />
+        </div>
         <CtaSection />
       </main>
     </div>
