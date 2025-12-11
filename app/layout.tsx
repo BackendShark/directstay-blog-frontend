@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { RootNav } from "@/components/root-nav";
+import { Toaster } from "@/components/ui/toaster";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -58,6 +59,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
+        <Toaster />
         <Analytics />
       </body>
     </html>
