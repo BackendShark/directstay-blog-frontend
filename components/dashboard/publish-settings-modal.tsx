@@ -5,7 +5,7 @@ import type React from "react";
 import { useState, useRef } from "react";
 import { X, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ImageUploadModal from "./image-upload-modal";
+import { ImageUploadModal } from "./image-upload-modal";
 import { PublishSettings } from "@/app/dashboard/blog-editor/page";
 
 type PublishSettingsModalProps = {
@@ -42,10 +42,10 @@ export function PublishSettingsModal({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showImageUploadModal, setShowImageUploadModal] = useState(false); // Added state for image upload modal
 
-  const wordCount = description.trim()
-    ? description.trim().split(/\s+/).length
-    : 0;
-  const maxWords = 50;
+  const titleCharCount = title.length;
+  const descriptionCharCount = description.length;
+  const maxTitleChars = 200;
+  const maxDescriptionChars = 500;
 
   if (!isOpen) return null;
 
@@ -92,18 +92,7 @@ export function PublishSettingsModal({
     });
   };
 
-  const isValid = thumbnail && description && tags.length >= 3;
-
-  const handleDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const text = e.target.value;
-    const words = text.trim().split(/\s+/);
-
-    if (words.length <= maxWords || text.trim() === "") {
-      setDescription(text);
-    }
-  };
+  const isValid = thumbnail && description && tags.length >= 3 && titleCharCount <= maxTitleChars && descriptionCharCount <= maxDescriptionChars;
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -180,17 +169,38 @@ export function PublishSettingsModal({
 
                 {/* Title */}
                 <div className="mb-4">
-                  <label className="text-sm text-muted-foreground mb-1.5 block">
-                    Title <span className="text-red-500">*</span>
-                  </label>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <label className="text-sm text-muted-foreground">
+                      Title <span className="text-red-500">*</span>
+                    </label>
+                    <span
+                      className={`text-xs ${
+                        titleCharCount > maxTitleChars
+                          ? "text-red-500"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {titleCharCount}/{maxTitleChars} characters
+                    </span>
+                  </div>
                   <input
                     type="text"
                     value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value.length <= maxTitleChars) {
+                        setTitle(e.target.value);
+                      }
+                    }}
                     placeholder="Give your blog a title"
-                    className="w-full px-3 py-2 bg-muted rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-[#5B6FFF]"
-                    readOnly
+                    className={`w-full px-3 py-2 bg-background rounded-md border focus:outline-none focus:ring-2 focus:ring-[#5B6FFF] ${
+                      titleCharCount > maxTitleChars ? "border-red-500" : "border-border"
+                    }`}
                   />
+                  {titleCharCount > maxTitleChars && (
+                    <p className="text-xs text-red-500 mt-1">
+                      Title is too long. Maximum {maxTitleChars} characters allowed.
+                    </p>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -201,20 +211,31 @@ export function PublishSettingsModal({
                     </label>
                     <span
                       className={`text-xs ${
-                        wordCount > maxWords
+                        descriptionCharCount > maxDescriptionChars
                           ? "text-red-500"
                           : "text-muted-foreground"
                       }`}
                     >
-                      {wordCount}/{maxWords} words
+                      {descriptionCharCount}/{maxDescriptionChars} characters
                     </span>
                   </div>
                   <textarea
                     value={description}
-                    onChange={handleDescriptionChange}
+                    onChange={(e) => {
+                      if (e.target.value.length <= maxDescriptionChars) {
+                        setDescription(e.target.value);
+                      }
+                    }}
                     placeholder="Add a short description of your blog"
-                    className="w-full px-3 py-2 bg-muted rounded-md border border-border focus:outline-none focus:ring-2 focus:ring-[#5B6FFF] min-h-[120px] resize-none"
+                    className={`w-full px-3 py-2 bg-background rounded-md border focus:outline-none focus:ring-2 focus:ring-[#5B6FFF] min-h-[120px] resize-none ${
+                      descriptionCharCount > maxDescriptionChars ? "border-red-500" : "border-border"
+                    }`}
                   />
+                  {descriptionCharCount > maxDescriptionChars && (
+                    <p className="text-xs text-red-500 mt-1">
+                      Description is too long. Maximum {maxDescriptionChars} characters allowed.
+                    </p>
+                  )}
                 </div>
 
                 {/* Tags */}
@@ -338,12 +359,10 @@ export function PublishSettingsModal({
           </div>
         </div>
       </div>
-      {showImageUploadModal && ( // Added image upload modal at the end
+      {showImageUploadModal && (
         <ImageUploadModal
-          isOpen={showImageUploadModal}
           onClose={() => setShowImageUploadModal(false)}
-          onSelectImage={handleSelectImage}
-          allowMultiple={false}
+          onImageSelect={handleSelectImage}
         />
       )}
     </div>

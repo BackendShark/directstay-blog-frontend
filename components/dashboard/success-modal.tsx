@@ -11,6 +11,7 @@ interface SuccessModalProps {
   type: "draft" | "publish" | "schedule";
   shareLink?: string;
   onPreview?: () => void;
+  onBackToEditor?: () => void;
 }
 
 export function SuccessModal({
@@ -19,6 +20,7 @@ export function SuccessModal({
   type,
   shareLink,
   onPreview,
+  onBackToEditor,
 }: SuccessModalProps) {
   const [copied, setCopied] = useState(false);
 
@@ -34,13 +36,16 @@ export function SuccessModal({
 
   const handleBackToEditor = () => {
     onClose();
+    if (onBackToEditor) {
+      onBackToEditor();
+    }
   };
 
   const handlePreview = () => {
+    onClose();
     if (onPreview) {
       onPreview();
     }
-    onClose();
   };
 
   const getContent = () => {
