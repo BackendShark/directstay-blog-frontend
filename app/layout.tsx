@@ -10,6 +10,7 @@ import { LoginModal } from "@/components/login-modal";
 import { SignupModal } from "@/components/signup-modal";
 import { VerificationModal } from "@/components/verification-modal";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const firaSans = Fira_Sans({
   subsets: ["latin"],
@@ -22,9 +23,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
   const [showVerificationModal, setShowVerificationModal] = useState(false);
+  
+  const isDashboardRoute = pathname?.startsWith('/dashboard');
 
   const handleLoginClick = () => {
     setShowLoginModal(true);
@@ -55,11 +59,11 @@ export default function RootLayout({
       </head>
       <body className={`${firaSans.variable} font-sans antialiased min-h-screen bg-white text-gray-900 overflow-x-hidden`}>
         <div className="flex flex-col min-h-screen">
-          <RootNav onLoginClick={handleLoginClick} onSignupClick={handleSignupClick} />
+          {!isDashboardRoute && <RootNav onLoginClick={handleLoginClick} onSignupClick={handleSignupClick} />}
           <main className="flex-1">
             {children}
           </main>
-          <Footer />
+          {!isDashboardRoute && <Footer />}
         </div>
         <Toaster />
         <Analytics />

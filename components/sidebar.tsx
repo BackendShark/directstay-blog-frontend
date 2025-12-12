@@ -3,7 +3,20 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { 
+  Menu, 
+  X, 
+  BarChart3, 
+  FileText, 
+  PenTool, 
+  TrendingUp, 
+  CheckCircle, 
+  MessageCircle, 
+  Megaphone, 
+  CreditCard, 
+  Store, 
+  Users 
+} from "lucide-react"
 
 interface SidebarProps {
   activeItem?: string
@@ -26,18 +39,18 @@ export function Sidebar({ activeItem: initialActive = "Overview" }: SidebarProps
   else if (pathname.includes("user-management")) currentActive = "User Management"
 
   const menuItems = [
-    { label: "Overview", icon: "📊", href: "/dashboard" },
-    { label: "Content Manager", icon: "📝", href: "/dashboard/content-manager" },
-    { label: "Blog Post Editor", icon: "✏️", href: "/dashboard/blog-post-editor" },
+    { label: "Overview", icon: BarChart3, href: "/dashboard" },
+    { label: "Content Manager", icon: FileText, href: "/dashboard/content-manager" },
+    { label: "Blog Post Editor", icon: PenTool, href: "/dashboard/blog-post-editor" },
     // { label: "Media Toolkit", icon: "🖼️", href: "/dashboard/media-toolkit" },
-    { label: "Analytics", icon: "📈", href: "/dashboard/analytics" },
-    { label: "Verification Hub", icon: "✓", href: "/dashboard/verification-hub" },
+    { label: "Analytics", icon: TrendingUp, href: "/dashboard/analytics" },
+    { label: "Verification Hub", icon: CheckCircle, href: "/dashboard/verification-hub" },
     // { label: "Merchants", icon: "🏪", href: "/dashboard/merchants" },
-    { label: "Messages", icon: "💬", href: "/dashboard/messages", badge: true },
-    { label: "Sponsored Content", icon: "📢", href: "/dashboard/sponsored-content", badge: true },
-    { label: "Payments", icon: "💳", href: "/dashboard/payments" },
-    { label: "Merchant List", icon: "🏪", href: "/dashboard/merchant-list" },
-    { label: "User Management", icon: "👥", href: "/dashboard/user-management" },
+    { label: "Messages", icon: MessageCircle, href: "/dashboard/messages", badge: true },
+    { label: "Sponsored Content", icon: Megaphone, href: "/dashboard/sponsored-content", badge: true },
+    { label: "Payments", icon: CreditCard, href: "/dashboard/payments" },
+    { label: "Merchant List", icon: Store, href: "/dashboard/merchant-list" },
+    { label: "User Management", icon: Users, href: "/dashboard/user-management" },
   ]
 
   return (
@@ -71,7 +84,7 @@ export function Sidebar({ activeItem: initialActive = "Overview" }: SidebarProps
               }`}
               title={!isOpen ? item.label : ""}
             >
-              <span className="text-lg flex-shrink-0">{item.icon}</span>
+              <item.icon size={18} className="flex-shrink-0" />
               {isOpen && (
                 <>
                   <span className="whitespace-nowrap">{item.label}</span>
