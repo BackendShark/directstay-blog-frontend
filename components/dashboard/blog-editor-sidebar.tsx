@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Type, ImageIcon, Grid3x3, Building2, Link2, Settings, Bell, TrendingUp, Search } from "lucide-react";
+import { ChevronDown, Type, ImageIcon, Grid3x3, Building2, Link2, Settings, Bell, TrendingUp, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useBlogEditor } from "./blog-editor-context";
@@ -63,10 +63,58 @@ export function BlogEditorSidebar({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showMerchantSearch, setShowMerchantSearch] = useState(false);
   const [merchantSearchQuery, setMerchantSearchQuery] = useState("");
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
-    <div className="w-[280px] border-r border-border bg-muted/30 overflow-y-auto">
-      <div className="p-4 space-y-6">
+    <div className={cn(
+      "border-r border-border bg-muted/30 overflow-y-auto transition-all duration-300 relative",
+      isCollapsed ? "w-12" : "w-[280px]"
+    )}>
+      {/* Toggle Button */}
+      <button
+        onClick={() => setIsCollapsed(!isCollapsed)}
+        className="absolute top-4 -right-3 z-10 w-6 h-6 bg-background border border-border rounded-full flex items-center justify-center hover:bg-muted transition-colors"
+      >
+        {isCollapsed ? (
+          <ChevronRight className="w-3 h-3" />
+        ) : (
+          <ChevronLeft className="w-3 h-3" />
+        )}
+      </button>
+
+      {isCollapsed ? (
+        <div className="p-2 pt-12 space-y-2 flex flex-col items-center">
+          <button
+            onClick={() => addBlock("header")}
+            className="p-2 hover:bg-muted rounded transition-colors"
+            title="Add Header"
+          >
+            <Type className="w-4 h-4" strokeWidth={3} />
+          </button>
+          <button
+            onClick={() => addBlock("body")}
+            className="p-2 hover:bg-muted rounded transition-colors"
+            title="Add Body Text"
+          >
+            <Type className="w-4 h-4" strokeWidth={2} />
+          </button>
+          <button
+            onClick={() => addBlock("single-image")}
+            className="p-2 hover:bg-muted rounded transition-colors"
+            title="Add Image"
+          >
+            <ImageIcon className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => addBlock("image-grid")}
+            className="p-2 hover:bg-muted rounded transition-colors"
+            title="Add Grid"
+          >
+            <Grid3x3 className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <div className="p-4 space-y-6 pt-12">
         {/* Blog Type Selector */}
         <div className="relative">
           <button
@@ -267,7 +315,8 @@ export function BlogEditorSidebar({
             Schedule
           </Button>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

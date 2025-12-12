@@ -10,6 +10,9 @@ import {
   GridIcon,
   ListIcon,
   Trash2,
+  Copy,
+  Pencil,
+  ListFilter,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -30,6 +33,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { MediaAsset } from "@/app/dashboard/media-toolkit/page";
+import Image from "next/image";
 
 type MediaToolkitContentProps = {
   mediaAssets: MediaAsset[];
@@ -44,6 +48,7 @@ export function MediaToolkitContent({
   const [selectedAssets, setSelectedAssets] = useState<string[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [sortBy, setSortBy] = useState<"date" | "name" | "size">("date");
 
   const handleFileUpload = (files: FileList | null) => {
     if (!files) return;
@@ -126,18 +131,23 @@ export function MediaToolkitContent({
     setShowDeleteDialog(false);
   };
 
+  const sortedAssets = [...mediaAssets].sort((a, b) => {
+    switch (sortBy) {
+      case "name":
+        return a.name.localeCompare(b.name);
+      case "size":
+        return parseInt(a.fileSize) - parseInt(b.fileSize);
+      case "date":
+      default:
+        return (
+          new Date(b.uploadDate).getTime() - new Date(a.uploadDate).getTime()
+        );
+    }
+  });
+
   if (mediaAssets.length === 0) {
     return (
       <div className="flex flex-col h-full">
-        <div className="px-8 py-6 border-b border-border">
-          <h1 className="text-2xl font-semibold text-foreground">
-            Media Toolkit
-          </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Manage your media assets in a personalized library.
-          </p>
-        </div>
-
         <div
           className={`flex-1 flex items-center justify-center ${
             isDragging ? "bg-accent/50" : ""
@@ -177,16 +187,6 @@ export function MediaToolkitContent({
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header moved to top */}
-      <div className="px-8 py-6 border-b border-border">
-        <h1 className="text-2xl font-semibold text-foreground">
-          Media Toolkit
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Manage your media assets in a personalized library.
-        </p>
-      </div>
-
       {/* Controls moved above content */}
       <div className="px-8 py-4 border-b border-border flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -198,26 +198,19 @@ export function MediaToolkitContent({
                 className="gap-2 bg-transparent"
               >
                 Sort by
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  className="opacity-50"
-                >
-                  <path
-                    d="M2 3h8M2 6h6M2 9h4"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <ListFilter />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>Date uploaded</DropdownMenuItem>
-              <DropdownMenuItem>Name</DropdownMenuItem>
-              <DropdownMenuItem>File size</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSortBy("date")}>
+                Date uploaded
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSortBy("name")}>
+                Name
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setSortBy("size")}>
+                File size
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -259,29 +252,22 @@ export function MediaToolkitContent({
       <div className="flex-1 overflow-auto p-8">
         {viewMode === "grid" ? (
           <div className="grid grid-cols-4 gap-6">
-            {mediaAssets.map((asset) => {
+            {sortedAssets.map((asset) => {
               const isSelected = selectedAssets.includes(asset.id);
               return (
                 <div
                   key={asset.id}
-                  className={`group relative rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                  className={`group relative rounded-md overflow-hidden shadow-md transition-all cursor-pointer ${
                     isSelected
-                      ? "border-[#5B6FFF] ring-2 ring-[#5B6FFF]/20"
+                      ? "border-[#5B6FFF] ring-1 ring-white/20"
                       : "border-border hover:border-[#5B6FFF]/50"
                   }`}
                   onClick={() => toggleAssetSelection(asset.id)}
                 >
-                  <div className="aspect-[4/3] overflow-hidden bg-muted">
-                    <img
-                      src={asset.url || "/placeholder.svg"}
-                      alt={asset.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-3 bg-card flex items-center justify-between">
+                  <div className="p-3 flex items-center justify-between">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                       {isSelected && (
-                        <div className="w-5 h-5 rounded bg-[#5B6FFF] flex items-center justify-center flex-shrink-0">
+                        <div className="w-5 h-5 rounded bg-[#5B6FFF] flex items-center justify-center shrink-0">
                           <Check className="w-3 h-3 text-white" />
                         </div>
                       )}
@@ -302,73 +288,33 @@ export function MediaToolkitContent({
                         <DropdownMenuItem
                           onClick={() => handleRename(asset.id)}
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            className="mr-2"
-                          >
-                            <path
-                              d="M11.333 2L14 4.667l-9.333 9.333H2v-2.667L11.333 2z"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
+                          <Pencil />
                           Rename
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleMakeCopy(asset.id)}
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            className="mr-2"
-                          >
-                            <rect
-                              x="5"
-                              y="5"
-                              width="9"
-                              height="9"
-                              rx="1"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                            />
-                            <path
-                              d="M3 11V3a1 1 0 011-1h8"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                            />
-                          </svg>
+                          <Copy />
                           Make a Copy
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => handleDelete(asset.id)}
                           className="text-destructive"
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                            className="mr-2"
-                          >
-                            <path
-                              d="M2 4h12M6.5 7v5M9.5 7v5M3 4l1 9a1 1 0 001 1h6a1 1 0 001-1l1-9M6 4V2.5A.5.5 0 016.5 2h3a.5.5 0 01.5.5V4"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              strokeLinecap="round"
-                            />
-                          </svg>
+                          <Trash2 />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
+                  </div>
+                  <div className="aspect-4/3 overflow-hidden bg-muted">
+                    <Image
+                      height={200}
+                      width={300}
+                      src={asset.url || "/placeholder.svg"}
+                      alt={asset.name}
+                      className="w-full h-full rounded-md object-cover"
+                    />
                   </div>
                 </div>
               );
@@ -376,7 +322,7 @@ export function MediaToolkitContent({
           </div>
         ) : (
           <div className="space-y-2">
-            {mediaAssets.map((asset) => {
+            {sortedAssets.map((asset) => {
               const isSelected = selectedAssets.includes(asset.id);
               return (
                 <div
@@ -393,17 +339,19 @@ export function MediaToolkitContent({
                       <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
-                  <img
+                  <Image
+                    height={50}
+                    width={50}
                     src={asset.url || "/placeholder.svg"}
                     alt={asset.name}
-                    className="w-12 h-12 object-cover rounded"
+                    className="w-16 h-16 object-cover rounded"
                   />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-foreground truncate">
                       {asset.name}
                     </p>
                   </div>
-                  <div className="text-sm text-muted-foreground w-40">
+                  <div className="text-sm mr-2 text-muted-foreground whitespace-nowrap w-40">
                     Uploaded - {asset.uploadDate}
                   </div>
                   <div className="text-sm text-muted-foreground w-24">

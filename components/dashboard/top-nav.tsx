@@ -1,9 +1,17 @@
-import { Search, Bell, Sun, DollarSign, ChevronDown } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Search, Bell, Sun, DollarSign, ChevronDown } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function TopNav() {
   return (
-    <div className="h-16 border-b border-border bg-background px-6 flex items-center justify-between">
+    <div className="h-24 border-b border-border bg-background py-4 px-6 flex items-center justify-between">
+      <div className="px-8 py-6 border-border">
+        <h1 className="text-2xl font-semibold text-foreground">
+          Media Toolkit
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Manage your media assets in a personalized library.
+        </p>
+      </div>
       <div className="flex items-center gap-4 flex-1 max-w-xl">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -39,5 +47,5 @@ export function TopNav() {
         </button>
       </div>
     </div>
-  )
+  );
 }
