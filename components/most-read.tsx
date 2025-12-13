@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { CollaborationBadge } from "./collaboration-badge";
 import { DirectStayBadge } from "./directstay-badge";
+import UnderlinedText from "./underline-text";
 
 export interface MostReadPost {
   id: string;
@@ -77,8 +78,8 @@ export const MostRead = ({
   };
 
   return (
-    <div className={`mb-8 sm:mb-12 ${className}`}>
-      <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6">{title}</h2>
+    <div className={`mb-8 sm:mb-12 ${className} space-y-4`}>
+      <UnderlinedText text={title} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {posts.map((post) => (
           <Link key={post.id} href={post.href} className="group">
@@ -88,7 +89,7 @@ export const MostRead = ({
                 alt={post.title}
                 width={300}
                 height={200}
-                className="w-full h-32 sm:h-36 lg:h-40 object-cover group-hover:scale-105 transition-transform"
+                className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform"
               />
             </div>
             <h3 className="font-semibold text-sm sm:text-base lg:text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors">

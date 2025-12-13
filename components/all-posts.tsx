@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { CollaborationBadge } from "./collaboration-badge";
+import UnderlinedText from "./underline-text";
 
 export interface AllPost {
   id: string;
@@ -51,6 +52,7 @@ export const AllPosts = ({
   const [posts, setPosts] = useState(initialPosts);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [hasLoadedMore, setHasLoadedMore] = useState(false);
   const [bookmarkedPosts, setBookmarkedPosts] = useState<Set<string>>(
     new Set(posts.filter((post) => post.isBookmarked).map((post) => post.id))
   );
@@ -95,6 +97,7 @@ export const AllPosts = ({
       const newPosts = await onLoadMore(currentPage + 1);
       setPosts((prev) => [...prev, ...newPosts]);
       setCurrentPage((prev) => prev + 1);
+      setHasLoadedMore(true);
     } catch (error) {
       toast({
         title: "Failed to load more posts",
@@ -105,11 +108,15 @@ export const AllPosts = ({
     }
   };
 
+  const handleHideMore = () => {
+    setPosts(initialPosts);
+    setCurrentPage(1);
+    setHasLoadedMore(false);
+  };
+
   return (
-    <div className={`mb-8 sm:mb-12 ${className}`}>
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2 className="text-lg sm:text-xl font-bold">{title}</h2>
-      </div>
+    <div className={`mb-8 sm:mb-12 ${className} space-y-4`}>
+      <UnderlinedText text={title} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {posts.map((post) => (
           <Link key={post.id} href={post.href} className="group">
@@ -119,7 +126,7 @@ export const AllPosts = ({
                 alt={post.title}
                 width={300}
                 height={200}
-                className="w-full h-32 sm:h-36 lg:h-40 object-cover group-hover:scale-105 transition-transform"
+                className="w-full aspect-4/3 object-cover group-hover:scale-105 transition-transform"
               />
             </div>
             <h3 className="font-semibold text-sm sm:text-base lg:text-sm mb-2 line-clamp-2 group-hover:text-primary transition-colors">
@@ -161,16 +168,38 @@ export const AllPosts = ({
         ))}
       </div>
       {(hasMore || onLoadMore) && (
-        <div className="flex justify-center">
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full max-w-md bg-transparent"
-            onClick={handleLoadMore}
-            disabled={isLoading || loading}
-          >
-            {isLoading || loading ? "Loading..." : "See More"}
-          </Button>
+        <div className="flex gap-2">
+          {!hasLoadedMore ? (
+            <Button
+              variant="outline"
+              size="lg"
+              className="w-full bg-transparent"
+              onClick={handleLoadMore}
+              disabled={isLoading || loading}
+            >
+              {isLoading || loading ? "Loading..." : "See More"}
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-[70%] bg-transparent"
+                onClick={handleLoadMore}
+                disabled={isLoading || loading || !hasMore}
+              >
+                {isLoading || loading ? "Loading..." : "See More"}
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-[30%] bg-transparent"
+                onClick={handleHideMore}
+              >
+                Hide
+              </Button>
+            </>
+          )}
         </div>
       )}
     </div>

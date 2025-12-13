@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { DirectStayBadge } from "./directstay-badge";
 import { CollaborationBadge } from "./collaboration-badge";
 import Underline from "./underline-text";
+import UnderlinedText from "./underline-text";
 
 export interface GridPost {
   id: string;
@@ -127,7 +128,7 @@ export function GridPosts({
     <div className={className || "lg:col-span-2"}>
       <div className="mb-4 sm:mb-6">
         <div>
-          <Underline text="Top Posts" />
+          <UnderlinedText text={title} />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

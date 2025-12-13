@@ -33,6 +33,7 @@ import { FeaturedCarousel } from "@/components/featured-carousel";
 import { AllPosts } from "@/components/all-posts";
 import { PlacesToVisit } from "@/components/places-to-visit";
 import { CtaSection } from "@/components/cta-section";
+import UnderlinedText from "@/components/underline-text";
 
 export default function MerchantsPage() {
   const [loading, setLoading] = useState(true);
@@ -129,16 +130,17 @@ export default function MerchantsPage() {
           onSearchChange={handleSearchChange}
           onLocationChange={handleLocationChange}
           onSortChange={handleSortChange}
-          onCategoryChange={handleCategoryChange}
+          onMainCategoryChange={handleCategoryChange}
           onPopularSearchClick={handlePopularSearchClick}
           initialLocation={selectedLocation}
           initialSort={selectedSort}
-          initialCategory={selectedCategory}
+          initialMainCategory={selectedCategory}
         />
         {/* Recent Post and Top Post Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 sm:mb-12">
           {/* Recent Post - Left (2 columns) */}
           <GridPosts
+            title="Recent Posts"
             posts={[
               {
                 id: "1",
@@ -285,10 +287,8 @@ export default function MerchantsPage() {
         </div>
 
         {/* For You */}
-        <div className="mb-8 sm:mb-12">
-          <div className="mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-bold">For You</h2>
-          </div>
+        <div className="mb-8 sm:mb-12 space-y-4">
+          <UnderlinedText text="For You" />
           <ForYou
             items={[
               {
@@ -326,6 +326,7 @@ export default function MerchantsPage() {
         </div>
 
         <MostRead
+          title="Merchants You May Know"
           posts={[
             {
               id: "1",

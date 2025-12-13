@@ -18,7 +18,7 @@ export function FeaturedHost({ items }: FeaturedHostProps) {
         {items.map((item) => (
           <Link key={item.id} href={`/blog/${item.slug}`}>
             <div className="bg-white border border-gray-100 rounded-lg transition-all duration-300 hover:shadow-lg hover:border-gray-200 flex p-3 sm:p-4">
-              <div className="relative w-28 sm:w-32 lg:w-36 aspect-[5/3] shrink-0">
+              <div className="relative w-36 ß lg:w-40 aspect-4/3 shrink-0">
                 <Image
                   height={200}
                   width={200}
@@ -28,17 +28,17 @@ export function FeaturedHost({ items }: FeaturedHostProps) {
                 />
               </div>
               <div className="flex-1 pl-3 sm:pl-4 flex flex-col min-w-0">
-                <h3 className="font-semibold text-gray-900 mb-1 text-xs sm:text-sm lg:text-base line-clamp-2">
+                <h3 className="font-semibold text-gray-900 mb-2 text-xs sm:text-sm lg:text-base line-clamp-2">
                   {item.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-gray-600 mb-2 leading-relaxed line-clamp-2 flex-1">
                   {item.description}
                 </p>
 
-                <DirectStayBadge className="mb-2" />
+                <DirectStayBadge className="mb-3" />
 
                 <div className="flex items-center justify-between text-xs text-gray-500">
-                  <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap min-w-0">
+                  <div className="flex items-center gap-4  flex-wrap min-w-0">
                     <span className="flex items-center gap-0.5 shrink-0">
                       <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
                       <span className="hidden sm:inline truncate">

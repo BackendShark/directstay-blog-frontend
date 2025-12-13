@@ -2,6 +2,7 @@ import { Calendar, Eye, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { CollaborationBadge } from "./collaboration-badge";
+import UnderlinedText from "./underline-text";
 
 export interface ListPost {
   id: string;
@@ -32,13 +33,19 @@ export const ListPosts = ({
 }: ListPostsProps) => {
   return (
     <div className={className}>
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold">{title}</h2>
+      <div className="mb-4 sm:mb-6">
+        <div>
+          <UnderlinedText text={title} />
+        </div>
       </div>
       <div className="space-y-3 sm:space-y-4">
         {posts.map((post) => (
-          <Link key={post.id} href={post.href} className="flex gap-3 sm:gap-4 group">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 lg:w-28 lg:h-28 flex-shrink-0 rounded-sm overflow-hidden">
+          <Link
+            key={post.id}
+            href={post.href}
+            className="flex gap-3 sm:gap-4 group"
+          >
+            <div className="w-32 sm:w-36 aspect-4/3 shrink-0 rounded-sm overflow-hidden">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -47,33 +54,13 @@ export const ListPosts = ({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 group-hover:text-blue-600 line-clamp-2">
+            <div className="flex-1 min-w-0 space-y-2">
+              <h3 className="font-semibold text-xs sm:text-sm mb-1 sm:mb-2 line-clamp-2">
                 {post.title}
               </h3>
               <p className="text-xs text-gray-600 mb-1 sm:mb-2 line-clamp-2">
                 {post.excerpt}
               </p>
-              {/* <div className="flex items-center gap-2 mb-2">
-                {post.author.avatar ? (
-                  <Image
-                    src={post.author.avatar}
-                    alt={post.author.name}
-                    width={60}
-                    height={60}
-                    className="w-5 h-5 rounded-full object-cover"
-                  />
-                ) : (
-                  <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
-                    <span className="text-white text-[8px] font-bold">
-                      {post.author.initials ||
-                       post.author.name.substring(0, 2).toUpperCase()}
-                    </span>
-                  </div>
-                )}
-                <span className="text-xs font-medium">{post.author.name}</span>
-                <span className="text-yellow-400 text-[10px]">⭐</span>
-              </div>  */}
               <CollaborationBadge />
               <div className="flex items-center gap-2 sm:gap-3 text-xs text-gray-500 flex-wrap">
                 <span className="flex items-center gap-1">
