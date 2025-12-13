@@ -119,17 +119,18 @@ export default function HostsPage() {
           onSearchChange={handleSearchChange}
           onLocationChange={handleLocationChange}
           onSortChange={handleSortChange}
-          onCategoryChange={handleCategoryChange}
+          onSubCategoryChange={handleCategoryChange}
           onPopularSearchClick={handlePopularSearchClick}
           initialLocation={selectedLocation}
           initialSort={selectedSort}
-          initialCategory={selectedCategory}
+          initialSubCategory={selectedCategory}
         />
 
         {/* Recent Post and Top Post */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 mb-8 sm:mb-12">
           {/* Recent Post - Left (2 columns) */}
           <GridPosts
+            title="Recent Posts"
             posts={[
               {
                 id: "1",
@@ -471,37 +472,37 @@ export default function HostsPage() {
           </div>
           <ForYou
             items={[
-            {
-              id: 1,
-              slug: "transform-small-spaces",
-              title: "How Hosts Can Transform Small Spaces",
-              description:
-                "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
-              image: "/beautiful-modern-house-with-garden.jpg",
-              collaborator: {
-                logo: "/placeholder.svg",
-                name: "Gabriella montez",
+              {
+                id: 1,
+                slug: "transform-small-spaces",
+                title: "How Hosts Can Transform Small Spaces",
+                description:
+                  "Smart furniture choices and layout tricks merchants recommend for turning compact apartments into high performing listings.",
+                image: "/beautiful-modern-house-with-garden.jpg",
+                collaborator: {
+                  logo: "/placeholder.svg",
+                  name: "Gabriella montez",
+                },
+                publishedAt: "Nov 18",
+                views: "3.8k",
+                comments: "3.8k",
               },
-              publishedAt: "Nov 18",
-              views: "3.8k",
-              comments: "3.8k",
-            },
-            {
-              id: 2,
-              slug: "luxury-design-trends",
-              title: "Luxury Property Design Trends",
-              description:
-                "Explore the latest luxury design trends that are captivating high-end property guests and increasing booking rates.",
-              image: "/beautiful-modern-house-with-garden.jpg",
-              collaborator: {
-                logo: "/placeholder.svg",
-                name: "Design Expert",
+              {
+                id: 2,
+                slug: "luxury-design-trends",
+                title: "Luxury Property Design Trends",
+                description:
+                  "Explore the latest luxury design trends that are captivating high-end property guests and increasing booking rates.",
+                image: "/beautiful-modern-house-with-garden.jpg",
+                collaborator: {
+                  logo: "/placeholder.svg",
+                  name: "Design Expert",
+                },
+                publishedAt: "Nov 15",
+                views: "2.9k",
+                comments: "89",
               },
-              publishedAt: "Nov 15",
-              views: "2.9k",
-              comments: "89",
-            },
-          ]}
+            ]}
           />
         </div>
         {/* All Post */}

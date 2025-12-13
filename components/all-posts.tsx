@@ -167,7 +167,7 @@ export const AllPosts = ({
           </Link>
         ))}
       </div>
-      {(hasMore || onLoadMore) && (
+      {((hasMore || onLoadMore) || hasLoadedMore) && (
         <div className="flex gap-2">
           {!hasLoadedMore ? (
             <Button
@@ -181,15 +181,20 @@ export const AllPosts = ({
             </Button>
           ) : (
             <>
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-[70%] bg-transparent"
-                onClick={handleLoadMore}
-                disabled={isLoading || loading || !hasMore}
-              >
-                {isLoading || loading ? "Loading..." : "See More"}
-              </Button>
+              {(hasMore || onLoadMore) && (
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-[70%] bg-transparent"
+                  onClick={handleLoadMore}
+                  disabled={isLoading || loading || !hasMore}
+                >
+                  {isLoading || loading ? "Loading..." : "See More"}
+                </Button>
+              )}
+              {!(hasMore || onLoadMore) && (
+                <div className="w-[70%]"></div>
+              )}
               <Button
                 variant="outline"
                 size="lg"

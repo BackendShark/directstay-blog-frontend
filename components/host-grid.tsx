@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import UnderlinedText from "./underline-text";
 
 export interface Host {
   id: string;
@@ -30,13 +31,16 @@ export const HostGrid = ({
   className,
 }: HostGridProps) => {
   const [visibleCount, setVisibleCount] = useState(itemsPerPage);
+  const [hasShownMore, setHasShownMore] = useState(false);
 
   const showMore = () => {
     setVisibleCount((prev) => Math.min(prev + itemsPerPage, hosts.length));
+    setHasShownMore(true);
   };
 
   const showLess = () => {
     setVisibleCount(itemsPerPage);
+    setHasShownMore(false);
   };
 
   const visibleHosts = hosts.slice(0, visibleCount);
@@ -45,25 +49,10 @@ export const HostGrid = ({
 
   return (
     <div className={`mb-8 sm:mb-12 ${className}`}>
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2 className="text-lg sm:text-xl font-bold">{title}</h2>
-        {canShowMore && (
-          <button
-            onClick={showMore}
-            className="text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors"
-          >
-            See More →
-          </button>
-        )}
-        {canShowLess && !canShowMore && (
-          <button
-            onClick={showLess}
-            className="text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors"
-          >
-            Hide
-          </button>
-        )}
+      <div className="mb-4">
+        <UnderlinedText text={title} />
       </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
         {visibleHosts.map((host) => (
           <div key={host.id} className="text-center">
@@ -78,11 +67,17 @@ export const HostGrid = ({
                 />
               </div>
             </Link>
-            <h3 className="text-sm sm:text-base font-semibold mb-1 line-clamp-1">{host.name}</h3>
+            <h3 className="text-sm sm:text-base font-semibold mb-1 line-clamp-1">
+              {host.name}
+            </h3>
             {host.title && (
-              <p className="text-xs sm:text-sm text-gray-600 mb-1 line-clamp-1">{host.title}</p>
+              <p className="text-xs sm:text-sm text-gray-600 mb-1 line-clamp-1">
+                {host.title}
+              </p>
             )}
-            <p className="text-xs text-gray-500 mb-2 sm:mb-3 line-clamp-1">{host.memberSince}</p>
+            <p className="text-xs text-gray-500 mb-2 sm:mb-3 line-clamp-1">
+              {host.memberSince}
+            </p>
             <Link href={host.profileUrl}>
               <Button
                 variant="outline"
@@ -95,16 +90,41 @@ export const HostGrid = ({
           </div>
         ))}
       </div>
-      {canShowMore && (
-        <div className="flex flex-1  mt-6">
-          <Button
-            onClick={showMore}
-            variant="outline"
-            className="bg-transparent w-full"
-          >
-            Show {Math.min(itemsPerPage, hosts.length - visibleCount)} More
-            Hosts
-          </Button>
+      {(canShowMore || canShowLess) && (
+        <div className="flex gap-2 mt-6">
+          {!canShowLess ? (
+            <Button
+              onClick={showMore}
+              variant="outline"
+              className="bg-transparent w-full"
+            >
+              Show {Math.min(itemsPerPage, hosts.length - visibleCount)} More
+              Hosts
+            </Button>
+          ) : (
+            <>
+              {canShowMore && (
+                <Button
+                  onClick={showMore}
+                  variant="outline"
+                  className="bg-transparent w-[70%]"
+                >
+                  Show {Math.min(itemsPerPage, hosts.length - visibleCount)} More
+                  Hosts
+                </Button>
+              )}
+              {!canShowMore && (
+                <div className="w-[70%]"></div>
+              )}
+              <Button
+                onClick={showLess}
+                variant="outline"
+                className="bg-transparent w-[30%]"
+              >
+                Hide
+              </Button>
+            </>
+          )}
         </div>
       )}
     </div>
