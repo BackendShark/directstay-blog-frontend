@@ -13,7 +13,7 @@ const UnderlinedText = ({
     <div className="relative">
       <div className="flex items-center justify-between">
         <div className="inline-block z-10  relative">
-          <h2 className="text-lg sm:text-xl font-bold">{text}</h2>
+          <h2 className="text-base sm:text-xl font-bold">{text}</h2>
           <div className="  h-0.5 bg-black/90 rounded-md"></div>
         </div>
         {seeMoreUrl && (

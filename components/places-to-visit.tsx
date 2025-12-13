@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { PlaceItem } from "@/lib/types";
+import Image from "next/image";
 
 export interface PlacesToVisitProps {
   title: string;
@@ -26,17 +27,23 @@ export function PlacesToVisit({
     onCategoryChange?.(category);
   };
 
-  const filteredPlaces = selectedCategory === "All" 
-    ? places 
-    : places.filter(place => place.category === selectedCategory);
+  const filteredPlaces =
+    selectedCategory === "All"
+      ? places
+      : places.filter((place) => place.category === selectedCategory);
 
   return (
     <div className="mt-8 sm:mt-12 mb-8 sm:mb-12">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{title}</h2>
+      <h2 className="text-base sm:text-2xl font-bold text-gray-900 mb-2">
+        {title}
+      </h2>
       <p className="text-sm text-gray-600 mb-4 sm:mb-6">{description}</p>
 
       {/* Category Pills */}
-      <div className="flex items-center gap-2 mb-4 sm:mb-6 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+      <div
+        className="flex items-center gap-2 mb-4 sm:mb-6 overflow-x-auto scrollbar-hide"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      >
         {categories.map((category) => (
           <button
             key={category}
@@ -53,15 +60,17 @@ export function PlacesToVisit({
       </div>
 
       {/* Places Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-5">
         {filteredPlaces.map((place) => (
           <Link
             key={place.id}
             href={`/blog/${place.slug}`}
             className="block bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow"
           >
-            <div className="relative h-40 sm:h-48">
-              <img
+            <div className="relative aspect-[4/3]">
+              <Image
+                height={250}
+                width={250}
                 src={place.image}
                 alt={place.name}
                 className="w-full h-full object-cover"

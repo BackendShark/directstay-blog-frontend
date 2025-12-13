@@ -11,12 +11,14 @@ interface FeaturedHostProps {
 export function FeaturedHost({ items }: FeaturedHostProps) {
   return (
     <div className="mb-6 sm:mb-8 lg:mb-12">
-      <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">Featured Host</h2>
+      <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4 lg:mb-6">
+        Featured Host
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {items.map((item) => (
           <Link key={item.id} href={`/blog/${item.slug}`}>
             <div className="bg-white border border-gray-100 rounded-lg transition-all duration-300 hover:shadow-lg hover:border-gray-200 flex p-3 sm:p-4">
-              <div className="relative w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 shrink-0">
+              <div className="relative w-28 sm:w-32 lg:w-36 aspect-[5/3] shrink-0">
                 <Image
                   height={200}
                   width={200}
@@ -39,8 +41,12 @@ export function FeaturedHost({ items }: FeaturedHostProps) {
                   <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap min-w-0">
                     <span className="flex items-center gap-0.5 shrink-0">
                       <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                      <span className="hidden sm:inline truncate">{item.publishedAt}</span>
-                      <span className="sm:hidden">{item.publishedAt.split(' ')[0]}</span>
+                      <span className="hidden sm:inline truncate">
+                        {item.publishedAt}
+                      </span>
+                      <span className="sm:hidden">
+                        {item.publishedAt.split(" ")[0]}
+                      </span>
                     </span>
                     <span className="flex items-center gap-0.5 shrink-0">
                       <Eye className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
