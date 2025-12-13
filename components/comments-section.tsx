@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { MessageCircle, ThumbsUp, Edit, Trash2, MoreHorizontal } from "lucide-react";
+import {
+  MessageCircle,
+  ThumbsUp,
+  Edit,
+  Trash2,
+  MoreHorizontal,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import type { Comment } from "@/lib/types/comments";
+import UnderlinedText from "./underline-text";
 
 export interface CommentsProps {
   comments: Comment[];
@@ -48,7 +55,7 @@ export function CommentsSection({
 
   const handleAddComment = async () => {
     if (!newComment.trim() || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       const comment: Comment = {
@@ -61,14 +68,14 @@ export function CommentsSection({
         replies: [],
         isOwner: true,
       };
-      
+
       // Update local state first
-      setComments(prev => [comment, ...prev]);
-      
+      setComments((prev) => [comment, ...prev]);
+
       if (onAddComment) {
         await onAddComment(newComment);
       }
-      
+
       toast({ title: "Comment added successfully" });
       setNewComment("");
     } catch (error) {
@@ -80,7 +87,7 @@ export function CommentsSection({
 
   const handleReply = async (parentId: number) => {
     if (!replyContent.trim() || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
       const reply: Comment = {
@@ -93,18 +100,20 @@ export function CommentsSection({
         replies: [],
         isOwner: true,
       };
-      
+
       // Update local state first
-      setComments(prev => prev.map(comment => 
-        comment.id === parentId 
-          ? { ...comment, replies: [...comment.replies, reply] }
-          : comment
-      ));
-      
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === parentId
+            ? { ...comment, replies: [...comment.replies, reply] }
+            : comment
+        )
+      );
+
       if (onAddComment) {
         await onAddComment(replyContent, parentId);
       }
-      
+
       toast({ title: "Reply added successfully" });
       setReplyContent("");
       setReplyingTo(null);
@@ -117,23 +126,23 @@ export function CommentsSection({
 
   const handleEdit = async (id: number) => {
     if (!editContent.trim() || isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
-      const updateComment = (comments: Comment[]): Comment[] => 
-        comments.map(comment => 
-          comment.id === id 
+      const updateComment = (comments: Comment[]): Comment[] =>
+        comments.map((comment) =>
+          comment.id === id
             ? { ...comment, content: editContent }
             : { ...comment, replies: updateComment(comment.replies) }
         );
-      
+
       // Update local state first
-      setComments(prev => updateComment(prev));
-      
+      setComments((prev) => updateComment(prev));
+
       if (onEditComment) {
         await onEditComment(id, editContent);
       }
-      
+
       toast({ title: "Comment updated successfully" });
       setEditingComment(null);
       setEditContent("");
@@ -146,20 +155,24 @@ export function CommentsSection({
 
   const handleDelete = async (id: number) => {
     if (isSubmitting) return;
-    
+
     setIsSubmitting(true);
     try {
-      const removeComment = (comments: Comment[]): Comment[] => 
-        comments.filter(comment => comment.id !== id)
-          .map(comment => ({ ...comment, replies: removeComment(comment.replies) }));
-      
+      const removeComment = (comments: Comment[]): Comment[] =>
+        comments
+          .filter((comment) => comment.id !== id)
+          .map((comment) => ({
+            ...comment,
+            replies: removeComment(comment.replies),
+          }));
+
       // Update local state first
-      setComments(prev => removeComment(prev));
-      
+      setComments((prev) => removeComment(prev));
+
       if (onDeleteComment) {
         await onDeleteComment(id);
       }
-      
+
       toast({ title: "Comment deleted successfully" });
     } catch (error) {
       toast({ title: "Failed to delete comment", variant: "destructive" });
@@ -171,19 +184,19 @@ export function CommentsSection({
   const handleLike = async (id: number, isLiked: boolean) => {
     try {
       // Optimistic update
-      const updateLike = (comments: Comment[]): Comment[] => 
-        comments.map(comment => 
-          comment.id === id 
-            ? { 
-                ...comment, 
+      const updateLike = (comments: Comment[]): Comment[] =>
+        comments.map((comment) =>
+          comment.id === id
+            ? {
+                ...comment,
                 likes: isLiked ? comment.likes - 1 : comment.likes + 1,
-                isLiked: !isLiked 
+                isLiked: !isLiked,
               }
             : { ...comment, replies: updateLike(comment.replies) }
         );
-      
-      setComments(prev => updateLike(prev));
-      
+
+      setComments((prev) => updateLike(prev));
+
       if (isLiked && onUnlikeComment) {
         await onUnlikeComment(id);
       } else if (!isLiked && onLikeComment) {
@@ -191,18 +204,18 @@ export function CommentsSection({
       }
     } catch (error) {
       // Revert on error
-      const revertLike = (comments: Comment[]): Comment[] => 
-        comments.map(comment => 
-          comment.id === id 
-            ? { 
-                ...comment, 
+      const revertLike = (comments: Comment[]): Comment[] =>
+        comments.map((comment) =>
+          comment.id === id
+            ? {
+                ...comment,
                 likes: isLiked ? comment.likes + 1 : comment.likes - 1,
-                isLiked: isLiked 
+                isLiked: isLiked,
               }
             : { ...comment, replies: revertLike(comment.replies) }
         );
-      
-      setComments(prev => revertLike(prev));
+
+      setComments((prev) => revertLike(prev));
       toast({ title: "Failed to update like", variant: "destructive" });
     }
   };
@@ -218,10 +231,15 @@ export function CommentsSection({
   };
 
   const renderComment = (comment: Comment, isReply = false) => (
-    <div key={comment.id} className={`flex gap-3 ${isReply ? 'ml-12 mt-4' : ''}`}>
+    <div
+      key={comment.id}
+      className={`flex gap-3 ${isReply ? "ml-12 mt-4" : ""}`}
+    >
       <Avatar className="h-10 w-10">
         <AvatarImage src={comment.avatar || "/placeholder.svg"} />
-        <AvatarFallback>{comment.author.slice(0, 2).toUpperCase()}</AvatarFallback>
+        <AvatarFallback>
+          {comment.author.slice(0, 2).toUpperCase()}
+        </AvatarFallback>
       </Avatar>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
@@ -246,7 +264,7 @@ export function CommentsSection({
                   <Edit className="h-3 w-3 mr-2" />
                   Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem 
+                <DropdownMenuItem
                   onClick={() => handleDelete(comment.id)}
                   className="text-destructive"
                 >
@@ -257,7 +275,7 @@ export function CommentsSection({
             </DropdownMenu>
           )}
         </div>
-        
+
         {editingComment === comment.id ? (
           <div className="space-y-2">
             <Textarea
@@ -266,16 +284,16 @@ export function CommentsSection({
               className="min-h-[80px]"
             />
             <div className="flex gap-2">
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 onClick={() => handleEdit(comment.id)}
                 disabled={isSubmitting || !editContent.trim()}
               >
                 Save
               </Button>
-              <Button 
-                size="sm" 
-                variant="outline" 
+              <Button
+                size="sm"
+                variant="outline"
                 onClick={cancelEdit}
                 disabled={isSubmitting}
               >
@@ -290,21 +308,25 @@ export function CommentsSection({
             </p>
             <div className="flex items-center gap-4 text-sm">
               {!isReply && (
-                <button 
+                <button
                   className="flex items-center gap-1 text-muted-foreground hover:text-foreground"
-                  onClick={() => setReplyingTo(replyingTo === comment.id ? null : comment.id)}
+                  onClick={() =>
+                    setReplyingTo(replyingTo === comment.id ? null : comment.id)
+                  }
                 >
                   Reply
                 </button>
               )}
-              <button 
+              <button
                 className={`flex items-center gap-1 hover:text-foreground ${
-                  comment.isLiked ? 'text-blue-600' : 'text-muted-foreground'
+                  comment.isLiked ? "text-blue-600" : "text-muted-foreground"
                 }`}
                 onClick={() => handleLike(comment.id, comment.isLiked || false)}
                 disabled={isSubmitting}
               >
-                <ThumbsUp className={`h-3 w-3 ${comment.isLiked ? 'fill-current' : ''}`} />
+                <ThumbsUp
+                  className={`h-3 w-3 ${comment.isLiked ? "fill-current" : ""}`}
+                />
                 {comment.likes > 0 && comment.likes}
               </button>
               {comment.replies.length > 0 && (
@@ -316,7 +338,7 @@ export function CommentsSection({
             </div>
           </>
         )}
-        
+
         {replyingTo === comment.id && (
           <div className="mt-4 space-y-2">
             <Textarea
@@ -326,17 +348,17 @@ export function CommentsSection({
               className="min-h-[80px]"
             />
             <div className="flex gap-2">
-              <Button 
-                size="sm" 
+              <Button
+                size="sm"
                 onClick={() => handleReply(comment.id)}
                 disabled={isSubmitting || !replyContent.trim()}
               >
                 <MessageCircle className="h-4 w-4 mr-2" />
                 Reply
               </Button>
-              <Button 
-                size="sm" 
-                variant="outline" 
+              <Button
+                size="sm"
+                variant="outline"
                 onClick={() => setReplyingTo(null)}
                 disabled={isSubmitting}
               >
@@ -345,22 +367,26 @@ export function CommentsSection({
             </div>
           </div>
         )}
-        
-        {comment.replies.map(reply => renderComment(reply, true))}
+
+        {comment.replies.map((reply) => renderComment(reply, true))}
       </div>
     </div>
   );
 
   return (
-    <div className="border-t pt-8">
-      <h2 className="text-2xl font-bold mb-6">Comments ({comments.length})</h2>
+    <div className="">
+      <div className="mb-4">
+        <UnderlinedText text="Comments" commentCount={comments.length || 0} />
+      </div>
 
       {/* Comment Input */}
       <div className="mb-8">
         <div className="flex gap-3 mb-4">
           <Avatar className="h-10 w-10">
             <AvatarImage src={currentUser.avatar || "/placeholder.svg"} />
-            <AvatarFallback>{currentUser.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarFallback>
+              {currentUser.name.slice(0, 2).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <span className="font-semibold">{currentUser.name}</span>
@@ -373,8 +399,8 @@ export function CommentsSection({
           onChange={(e) => setNewComment(e.target.value)}
         />
         <div className="flex justify-end">
-          <Button 
-            size="sm" 
+          <Button
+            size="sm"
             onClick={handleAddComment}
             disabled={isSubmitting || !newComment.trim()}
           >
@@ -386,7 +412,7 @@ export function CommentsSection({
 
       {/* Comments List */}
       <div className="space-y-6">
-        {comments.map(comment => renderComment(comment))}
+        {comments.map((comment) => renderComment(comment))}
       </div>
     </div>
   );

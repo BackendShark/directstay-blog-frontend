@@ -40,12 +40,12 @@ export function RelatedTopics({
       <div className="space-y-4">
         {displayPosts.map((post) => (
           <Link key={post.id} href={post.href} className="flex gap-4 group">
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 space-y-3">
               <h4 className="text-sm font-medium mb-2 line-clamp-2 group-hover:text-primary">
                 {post.title}
               </h4>
+              <DirectStayBadge />
               <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                <DirectStayBadge />
                 <div className="flex items-center gap-1">
                   <Eye className="h-3 w-3" />
                   {post.views}
@@ -56,7 +56,7 @@ export function RelatedTopics({
                 </div>
               </div>
             </div>
-            <div className="relative w-20 h-16 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="relative w-32 aspect-4/3 rounded-md overflow-hidden shrink-0">
               <Image
                 src={post.image || "/beautiful-modern-house-with-garden.jpg"}
                 alt={post.title}

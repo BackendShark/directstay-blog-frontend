@@ -16,13 +16,17 @@ import {
   Bookmark,
   ExternalLink,
   Star,
+  ChevronRight,
+  Heart,
 } from "lucide-react";
 import { CtaSection } from "@/components/cta-section";
 import { CommentsSection } from "@/components/comments-section";
 import { ArticleHeader } from "@/components/article-header";
 import { SponsorshipCard } from "@/components/sponsorship-card";
 import { RelatedTopics } from "@/components/related-topics";
+import { CollaborationBadge } from "@/components/collaboration-badge";
 import type { Comment } from "@/lib/types/comments";
+import { DirectStayBadge } from "@/components/directstay-badge";
 
 export default function BlogPost({
   params,
@@ -145,42 +149,125 @@ export default function BlogPost({
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Article Header - Full Width */}
-      <ArticleHeader
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "How Hosts Can Transform Small Spaces", href: "#" },
-        ]}
-        title="How Hosts Can Transform Small Spaces"
-        heroImage="/images/attachments-gen-images-public-beautiful-modern-house-with-garden.jpg"
-        heroImageAlt="Small cozy house with white exterior and green lawn"
-        author={{
-          name: "DirectStay",
-          avatar: "/placeholder.svg",
-          isVerified: true,
-        }}
-        collaboration={{
-          partner: "Gymco",
-        }}
-        publishDate="Nov 18"
-        readTime="10 mins read"
-        likes="3.8k"
-        comments="3.8k"
-        onLike={() => console.log("Liked!")}
-        onSave={() => {
-          setIsSaved(!isSaved);
-          console.log("Saved!");
-        }}
-        onShare={() => console.log("Shared!")}
-      />
+      {/* Breadcrumb Navigation - Full Width */}
+      <nav className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <ol className="flex items-center space-x-2 text-sm text-gray-600">
+          <li className="flex items-center">
+            <Link href="/" className="hover:text-blue-600 transition-colors">
+              Home
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <ChevronRight className="w-4 h-4 mx-2 text-gray-400" />
+            <span className="text-gray-900 font-medium">
+              How Hosts Can Transform Small Spaces
+            </span>
+          </li>
+        </ol>
+      </nav>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
           {/* Left Column - Article Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-8 lg:border-r lg:border-gray-200 lg:pr-8">
+            {/* Article Header */}
+            <div className="space-y-6">
+              {/* Hero Image */}
+              <div className="relative w-full aspect-[16/9] rounded-md overflow-hidden">
+                <Image
+                  src="/images/attachments-gen-images-public-beautiful-modern-house-with-garden.jpg"
+                  alt="Small cozy house with white exterior and green lawn"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+
+              {/* Title */}
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                How Hosts Can Transform Small Spaces
+              </h1>
+
+              {/* Author and Metadata */}
+              {(isMerchantPost || isHostPost) && !isGeneralPost ? (
+                <div className="flex items-center gap-4 mb-4">
+                  <CollaborationBadge
+                    showColaboratorText={false}
+                    collaborator={{
+                      name: "DirectStay",
+                      logo: "/placeholder.svg",
+                    }}
+                  />
+                  <span className="text-gray-400">x</span>
+                  <div className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 rounded-full">
+                    <span className="text-sm font-medium text-gray-700">
+                      Gymco
+                    </span>
+                  </div>
+                  <span className="px-3 py-1 bg-gray-800 text-white text-sm font-medium rounded-full">
+                    Collab
+                  </span>
+                </div>
+              ) : (
+                <DirectStayBadge />
+              )}
+
+              <div className="flex items-baseline justify-between">
+                <div className="flex items-center flex-wrap gap-3 text-sm text-gray-600">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4" />
+                    <span>Nov 18</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="w-4 h-4" />
+                    <span>10 mins read</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Heart
+                      className={`w-4 h-4 ${
+                        isSaved ? "fill-red-500 text-red-500" : ""
+                      }`}
+                    />
+                    <span>3.8k</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <MessageCircle className="w-4 h-4" />
+                    <span>3.8k</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => console.log("Shared!")}
+                    className="h-auto p-0 text-sm text-gray-600 hover:text-blue-600 transition-colors font-normal"
+                  >
+                    <Share2 className="w-4 h-4 mr-1" />
+                    Share
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setIsSaved(!isSaved);
+                      console.log("Saved!");
+                    }}
+                    className="h-auto p-0 text-sm text-gray-600 hover:text-yellow-600 transition-colors font-normal"
+                  >
+                    <Bookmark
+                      className={`w-4 h-4 mr-1 ${
+                        isSaved ? "fill-yellow-500 text-yellow-500" : ""
+                      }`}
+                    />
+                    {isSaved ? "Saved" : "Save"}
+                  </Button>
+                </div>
+              </div>
+            </div>
             {/* Article Body */}
-            <div className="prose prose-lg max-w-none">
+            <div className=" max-w-none">
               <p className="text-muted-foreground leading-relaxed mb-6">
                 From the cheerful optimism of the 1960s to today's eclectic
                 minimalism, the world has lost more than chicness! It has lost
@@ -196,7 +283,7 @@ export default function BlogPost({
                 aesthetic.
               </p>
 
-              <div className="relative aspect-[16/9] rounded-2xl overflow-hidden mb-8">
+              <div className="relative aspect-16/9 rounded-md overflow-hidden mb-8">
                 <Image
                   src="/images/attachments-gen-images-public-luxury-apartment-interior.png"
                   alt="Property interior"
@@ -221,7 +308,7 @@ export default function BlogPost({
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <div className="relative aspect-4/3 rounded-md overflow-hidden">
                   <Image
                     src="/images/attachments-gen-images-public-cozy-vacation-rental-bedroom.jpg"
                     alt="Property exterior"
@@ -229,7 +316,7 @@ export default function BlogPost({
                     className="object-cover"
                   />
                 </div>
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                <div className="relative aspect-[/3 rounded-md overflow-hidden">
                   <Image
                     src="/placeholder.svg?height=400&width=600"
                     alt="Property detail"
@@ -456,7 +543,7 @@ export default function BlogPost({
 
           {/* Right Sidebar */}
           <div className="lg:col-span-1">
-            <div className="hidden lg:block sticky top-8 space-y-6">
+            <div className="hidden lg:block space-y-6">
               {isGeneralPost ? (
                 <>
                   <SponsorshipCard
@@ -480,7 +567,7 @@ export default function BlogPost({
               ) : isHostPost ? (
                 <>
                   {/* Host Merchant Card */}
-                  <div className="border rounded-2xl p-6 text-center">
+                  <div className="border rounded-md p-6 text-center">
                     <Avatar className="h-16 w-16 mx-auto mb-3">
                       <AvatarImage src="/placeholder.svg" />
                       <AvatarFallback>SC</AvatarFallback>
@@ -516,7 +603,7 @@ export default function BlogPost({
                   />
 
                   {/* Merchant Card */}
-                  <div className="border rounded-2xl p-6 text-center">
+                  <div className="border rounded-md p-6 text-center">
                     <Avatar className="h-16 w-16 mx-auto mb-3">
                       <AvatarImage src="/placeholder.svg" />
                       <AvatarFallback>SC</AvatarFallback>

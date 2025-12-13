@@ -7,6 +7,7 @@ interface Collaborator {
 
 interface DirectStayBadgeProps {
   className?: string;
+  showColaboratorText?: boolean;
   size?: "sm" | "md" | "lg";
   collaborator?: Collaborator | null;
 }
@@ -14,6 +15,7 @@ interface DirectStayBadgeProps {
 export const CollaborationBadge = ({
   className,
   size = "md",
+  showColaboratorText = true,
   collaborator = null,
 }: DirectStayBadgeProps) => {
   return (
@@ -54,7 +56,7 @@ export const CollaborationBadge = ({
         className="w-4 h-4 aspect-square rounded-full object-cover"
       />
 
-      {collaborator && (
+      {collaborator && showColaboratorText && (
         <div className="text-xs font-medium px-2 py-1 bg-white/10 rounded-full">
           collab
         </div>

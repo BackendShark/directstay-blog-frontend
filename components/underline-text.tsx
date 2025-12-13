@@ -4,16 +4,23 @@ import React from "react";
 
 const UnderlinedText = ({
   seeMoreUrl,
+  commentCount,
   text,
 }: {
   seeMoreUrl?: string;
+  commentCount?: number;
   text: string;
 }) => {
   return (
     <div className="relative">
       <div className="flex items-center justify-between">
         <div className="inline-block z-10  relative">
-          <h2 className="text-base sm:text-xl font-bold">{text}</h2>
+          <div className="flex items-center gap-2 mb-1">
+            <h2 className="text-base sm:text-xl font-bold">{text}</h2>
+            {(commentCount ?? 0) > 0 && (
+              <span className="text-sm font-bold">{`(${commentCount})`}</span>
+            )}
+          </div>
           <div className="  h-0.5 bg-black/90 rounded-md"></div>
         </div>
         {seeMoreUrl && (

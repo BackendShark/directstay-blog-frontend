@@ -33,7 +33,7 @@ export function SponsorshipCard({
   };
 
   return (
-    <div className="border rounded-2xl p-6 text-center">
+    <div className="border rounded-md p-6 text-center">
       <div className="flex flex-col items-center gap-2 mb-4">
         <Image
           src="/assets/badge.svg"
