@@ -25,14 +25,14 @@ export const CollaborationBadge = ({
             height={size === "sm" ? 20 : size === "md" ? 30 : 50}
             width={size === "sm" ? 20 : size === "md" ? 30 : 50}
             alt="Directstay badge"
-            className="w-6 h-6"
+            className="w-8 h-8 aspect-square rounded-full object-cover"
           />
           <Image
             src={collaborator.logo}
             height={size === "sm" ? 20 : size === "md" ? 30 : 50}
             width={size === "sm" ? 20 : size === "md" ? 30 : 50}
             alt={`${collaborator.name} logo`}
-            className="w-8 h-8 rounded-full absolute top-0 -right-3 "
+            className="w-8 h-8 aspect-square rounded-full object-cover absolute top-0 -right-3"
           />
         </div>
       )}
@@ -42,7 +42,7 @@ export const CollaborationBadge = ({
           height={size === "sm" ? 20 : size === "md" ? 30 : 50}
           width={size === "sm" ? 20 : size === "md" ? 30 : 50}
           alt="Directstay badge"
-          className="w-8 h-8"
+          className="w-8 h-8 aspect-square rounded-full object-cover"
         />
       )}
       <span className="text-xs font-medium">DirectStay</span>
@@ -51,7 +51,7 @@ export const CollaborationBadge = ({
         height={5}
         width={5}
         alt="Verified badge"
-        className="w-4 h-4"
+        className="w-4 h-4 aspect-square rounded-full object-cover"
       />
 
       {collaborator && (

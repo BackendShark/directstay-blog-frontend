@@ -202,11 +202,11 @@ export default function HomePage() {
           onSearchChange={handleSearchChange}
           onLocationChange={handleLocationChange}
           onSortChange={handleSortChange}
-          onCategoryChange={handleCategoryChange}
+          onMainCategoryChange={handleCategoryChange}
           onPopularSearchClick={handlePopularSearchClick}
           initialLocation={selectedLocation}
           initialSort={selectedSort}
-          initialCategory={selectedCategory}
+          initialMainCategory={selectedCategory}
         />
 
         {/* Content Grid */}

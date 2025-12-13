@@ -10,6 +10,8 @@ import {
   ListFilter,
   Check,
 } from "lucide-react";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 
 // US Major Cities Data
 const US_LOCATIONS = [
@@ -99,38 +101,37 @@ const SORT_OPTIONS = [
 
 const POPULAR_SEARCHES = ["Home", "Garden", "Restaurant"];
 
-const CATEGORIES = [
+const MAIN_CATEGORIES = [
   "All",
-  "Travel & Destinations",
-  "Stays & Hosting",
-  "Merchants & Business",
-  "Food & Lifestyle",
-  "Travel Essentials",
-  "Platform Updates",
-  "Property Management",
-  "Guest Experience",
-  "Marketing Tips",
-  "Revenue Optimization",
-  "Local Attractions",
-  "Safety & Security",
-  "Cleaning & Maintenance",
-  "Interior Design",
-  "Technology & Apps",
-  "Legal & Regulations",
-  "Community Events",
-  "Seasonal Guides",
-  "Photography Tips",
+  "Travel",
+  "Host",
+  "Merchant",
+  "Brand & Movement",
+];
+
+const SUB_CATEGORIES = [
+  "All",
+  "Eat & Sip",
+  "Outdoor & Nature",
+  "Hidden Gems",
+  "Family Fun",
+  "Nightlife & Entertainment",
+  "Pet-Friendly Exploring",
+  "Things to Do",
+  "Community Stories",
 ];
 
 export interface SearchFiltersProps {
   onSearchChange?: (query: string) => void;
   onLocationChange?: (location: string) => void;
   onSortChange?: (sort: string) => void;
-  onCategoryChange?: (category: string) => void;
+  onMainCategoryChange?: (category: string) => void;
+  onSubCategoryChange?: (category: string) => void;
   onPopularSearchClick?: (search: string) => void;
   initialLocation?: string;
   initialSort?: string;
-  initialCategory?: string;
+  initialMainCategory?: string;
+  initialSubCategory?: string;
   className?: string;
 }
 
@@ -138,24 +139,29 @@ export function SearchFilters({
   onSearchChange,
   onLocationChange,
   onSortChange,
-  onCategoryChange,
+  onMainCategoryChange,
+  onSubCategoryChange,
   onPopularSearchClick,
-  initialLocation = "Birmingham, Alabama",
+  initialLocation = "Location",
   initialSort = "newest",
-  initialCategory = "All",
+  initialMainCategory = "All",
+  initialSubCategory = "All",
   className = "",
 }: SearchFiltersProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(initialLocation);
   const [selectedSort, setSelectedSort] = useState(initialSort);
-  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedMainCategory, setSelectedMainCategory] =
+    useState(initialMainCategory);
+  const [selectedSubCategory, setSelectedSubCategory] =
+    useState(initialSubCategory);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [locationSearch, setLocationSearch] = useState("");
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const categoriesRef = useRef<HTMLDivElement>(null);
+  const subCategoriesRef = useRef<HTMLDivElement>(null);
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
@@ -176,9 +182,14 @@ export function SearchFilters({
     onSortChange?.(value);
   };
 
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category);
-    onCategoryChange?.(category);
+  const handleMainCategorySelect = (category: string) => {
+    setSelectedMainCategory(category);
+    onMainCategoryChange?.(category);
+  };
+
+  const handleSubCategorySelect = (category: string) => {
+    setSelectedSubCategory(category);
+    onSubCategoryChange?.(category);
   };
 
   const handlePopularSearch = (search: string) => {
@@ -188,25 +199,24 @@ export function SearchFilters({
   };
 
   const checkScrollButtons = () => {
-    if (categoriesRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = categoriesRef.current;
+    if (subCategoriesRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = subCategoriesRef.current;
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 1);
     }
   };
 
   const scrollCategories = (direction: "left" | "right") => {
-    if (categoriesRef.current) {
+    if (subCategoriesRef.current) {
       const scrollAmount = 200;
       const scrollDirection =
         direction === "left" ? -scrollAmount : scrollAmount;
 
-      categoriesRef.current.scrollBy({
+      subCategoriesRef.current.scrollBy({
         left: scrollDirection,
         behavior: "smooth",
       });
 
-      // Update scroll button states after animation
       setTimeout(checkScrollButtons, 300);
     }
   };
@@ -241,113 +251,137 @@ export function SearchFilters({
 
   return (
     <div className={`mb-4 sm:mb-6 ${className}`}>
-      {/* Search Bar and Controls */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
-        {/* Search Input */}
-        <div className="flex-1 relative">
-          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search for post, merchant..."
-            value={searchQuery}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full h-10 sm:h-12 pl-10 sm:pl-12 pr-3 sm:pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
-          />
+      {/* Top Row: Main Categories + Location & Sort */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+        {/* Main Category Tabs */}
+        <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
+          {MAIN_CATEGORIES.map((category) => (
+            <button
+              key={category}
+              onClick={() => handleMainCategorySelect(category)}
+              className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+                selectedMainCategory === category
+                  ? "bg-blue-600 text-white rounded-lg"
+                  : "text-gray-700 hover:text-blue-600"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
-        {/* Location Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setShowLocationDropdown(!showLocationDropdown)}
-            className="flex items-center gap-2 h-10 sm:h-12 px-3 sm:px-4 text-sm font-medium text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors w-full sm:w-auto justify-between sm:justify-start"
-          >
-            <div className="flex items-center gap-2">
-              <MapPin className="w-4 h-4" />
-              <span className="max-w-32 sm:max-w-40 truncate">{selectedLocation}</span>
-            </div>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-
-          {showLocationDropdown && (
-            <div className="absolute top-full left-0 mt-1 w-full sm:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-              <div className="p-3 border-b border-gray-200">
-                <input
-                  type="text"
-                  placeholder="Search locations..."
-                  value={locationSearch}
-                  onChange={(e) => setLocationSearch(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-                />
+        {/* Location and Sort Controls */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
+          {/* Location Dropdown */}
+          <div className="relative w-full sm:w-auto">
+            <Button
+              variant="outline"
+              onClick={() => setShowLocationDropdown(!showLocationDropdown)}
+              className="w-full sm:w-auto justify-center h-10 text-xs sm:text-sm font-medium"
+            >
+              <div className="flex items-center gap-1 sm:gap-2">
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="sm:hidden">Location</span>
+                <span className="hidden sm:inline">{selectedLocation}</span>
               </div>
-              <div className="max-h-60 overflow-y-auto">
-                {filteredLocations.slice(0, 20).map((location, index) => (
+              <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+            </Button>
+
+            {showLocationDropdown && (
+              <div className="absolute top-full left-0 sm:left-auto right-0 sm:right-0 mt-1 w-full sm:w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <div className="p-3 border-b border-gray-200">
+                  <Input
+                    type="text"
+                    placeholder="Search locations..."
+                    value={locationSearch}
+                    onChange={(e) => setLocationSearch(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder:text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="max-h-60 overflow-y-auto">
+                  {filteredLocations.slice(0, 20).map((location, index) => (
+                    <button
+                      key={index}
+                      onClick={() =>
+                        handleLocationSelect(location.city, location.state)
+                      }
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center justify-between"
+                    >
+                      <span>
+                        {location.city}, {location.state}
+                      </span>
+                      {selectedLocation ===
+                        `${location.city}, ${location.state}` && (
+                        <Check className="w-4 h-4 text-blue-600" />
+                      )}
+                    </button>
+                  ))}
+                  {filteredLocations.length === 0 && (
+                    <div className="px-4 py-3 text-sm text-gray-500">
+                      No locations found
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sort Dropdown */}
+          <div className="relative w-full sm:w-auto">
+            <Button
+              variant="outline"
+              onClick={() => setShowSortDropdown(!showSortDropdown)}
+              className="w-full sm:w-auto justify-center h-10 text-xs sm:text-sm font-medium"
+            >
+              <div className="flex items-center gap-1">
+                <ListFilter className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="sm:hidden">Sort</span>
+                <span className="hidden sm:inline">Sort: {selectedSortLabel}</span>
+              </div>
+            </Button>
+
+            {showSortDropdown && (
+              <div className="absolute top-full left-0 sm:left-auto right-0 sm:right-0 mt-1 w-full sm:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                {SORT_OPTIONS.map((option) => (
                   <button
-                    key={index}
-                    onClick={() =>
-                      handleLocationSelect(location.city, location.state)
-                    }
+                    key={option.value}
+                    onClick={() => handleSortSelect(option.value)}
                     className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center justify-between"
                   >
-                    <span>
-                      {location.city}, {location.state}
-                    </span>
-                    {selectedLocation ===
-                      `${location.city}, ${location.state}` && (
+                    <span>{option.label}</span>
+                    {selectedSort === option.value && (
                       <Check className="w-4 h-4 text-blue-600" />
                     )}
                   </button>
                 ))}
-                {filteredLocations.length === 0 && (
-                  <div className="px-4 py-3 text-sm text-gray-500">
-                    No locations found
-                  </div>
-                )}
               </div>
-            </div>
-          )}
-        </div>
-
-        {/* Sort Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setShowSortDropdown(!showSortDropdown)}
-            className="flex items-center gap-2 h-10 sm:h-12 px-3 sm:px-4 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors w-full sm:w-auto justify-between sm:justify-start border border-gray-300 sm:border-0 rounded-lg sm:rounded-none"
-          >
-            <span>Sort:</span>
-            <span className="flex items-center gap-1">
-              <ListFilter className="w-4 h-4" />
-              {selectedSortLabel}
-            </span>
-          </button>
-
-          {showSortDropdown && (
-            <div className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-              {SORT_OPTIONS.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => handleSortSelect(option.value)}
-                  className="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors flex items-center justify-between"
-                >
-                  <span>{option.label}</span>
-                  {selectedSort === option.value && (
-                    <Check className="w-4 h-4 text-blue-600" />
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Popular Searches */}
-      <div className="mb-4 sm:mb-6">
-        <p className="text-sm text-gray-600 mb-3">Popular Searches:</p>
-        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+      {/* Bottom Row: Search Bar + Popular Searches */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        {/* Search Input */}
+        <div className="relative flex-1 sm:flex-none">
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="Search for post, merchant..."
+            value={searchQuery}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="w-full sm:w-80 h-10 sm:h-12 pl-10 sm:pl-12 pr-4 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+          />
+        </div>
+
+        {/* Popular Searches */}
+        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto scrollbar-hide">
+          <span className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">Popular:</span>
           {POPULAR_SEARCHES.map((search) => (
             <button
               key={search}
               onClick={() => handlePopularSearch(search)}
-              className="px-3 sm:px-4 py-1.5 sm:py-2 bg-white border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="px-2 sm:px-3 py-1 sm:py-1.5 bg-white border border-gray-300 rounded-lg text-xs sm:text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors whitespace-nowrap"
             >
               {search}
             </button>
@@ -355,12 +389,12 @@ export function SearchFilters({
         </div>
       </div>
 
-      {/* Category Tabs */}
-      <div className="flex items-center gap-1 sm:gap-2">
+      {/* Sub-Category Tabs */}
+      <div className="flex items-center gap-2">
         {/* Left scroll button */}
         <button
           onClick={() => scrollCategories("left")}
-          className={`p-1.5 sm:p-2 rounded-lg transition-colors shrink-0 ${
+          className={`p-2 rounded-lg transition-colors shrink-0 ${
             canScrollLeft
               ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
@@ -368,24 +402,24 @@ export function SearchFilters({
           disabled={!canScrollLeft}
           aria-label="Scroll categories left"
         >
-          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
 
-        {/* Categories container */}
+        {/* Sub-Categories container */}
         <div
-          ref={categoriesRef}
-          className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide flex-1"
+          ref={subCategoriesRef}
+          className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           onScroll={checkScrollButtons}
         >
-          {CATEGORIES.map((category) => (
+          {SUB_CATEGORIES.map((category) => (
             <button
               key={category}
-              onClick={() => handleCategorySelect(category)}
-              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
-                selectedCategory === category
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-gray-700 hover:bg-gray-50"
+              onClick={() => handleSubCategorySelect(category)}
+              className={`px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors border-b-2 ${
+                selectedSubCategory === category
+                  ? "border-blue-600 text-blue-600"
+                  : "border-transparent text-gray-700 hover:text-blue-600 hover:border-gray-300"
               }`}
             >
               {category}
@@ -396,7 +430,7 @@ export function SearchFilters({
         {/* Right scroll button */}
         <button
           onClick={() => scrollCategories("right")}
-          className={`p-1.5 sm:p-2 rounded-lg transition-colors shrink-0 ${
+          className={`p-2 rounded-lg transition-colors shrink-0 ${
             canScrollRight
               ? "hover:bg-gray-100 text-gray-600"
               : "text-gray-300 cursor-not-allowed"
@@ -404,7 +438,7 @@ export function SearchFilters({
           disabled={!canScrollRight}
           aria-label="Scroll categories right"
         >
-          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 

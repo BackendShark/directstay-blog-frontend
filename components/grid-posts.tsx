@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { DirectStayBadge } from "./directstay-badge";
 import { CollaborationBadge } from "./collaboration-badge";
-import Underline from "./underline";
+import Underline from "./underline-text";
 
 export interface GridPost {
   id: string;
@@ -47,7 +47,7 @@ export function GridPosts({
     name: "DirectStay",
     avatar: "/directstay-logo.png",
   },
-  title = "Top Post",
+  title = "Top Posts",
   posts,
   columns = 2,
   onBookmark,
@@ -126,8 +126,9 @@ export function GridPosts({
   return (
     <div className={className || "lg:col-span-2"}>
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-lg sm:text-xl font-bold">{title}</h2>
-        <Underline className="w-[20%]" />
+        <div>
+          <Underline text="Top Posts" />
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {posts.map((post) => (
@@ -138,13 +139,15 @@ export function GridPosts({
                 height={250}
                 src={post.image}
                 alt={post.title}
-                className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full aspect-4/3 object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <h3 className="text-sm sm:text-base font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+            <h3 className="text-sm sm:text-base font-semibold mb-2 line-clamp-2">
               {post.title}
             </h3>
-            <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-3">{post.excerpt}</p>
+            <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-3">
+              {post.excerpt}
+            </p>
             {postBy.role === "admin" ? (
               <DirectStayBadge className="mb-2 sm:mb-3" />
             ) : (
@@ -155,7 +158,7 @@ export function GridPosts({
                 }}
               />
             )}
-            <div className="flex items-center gap-3 text-xs text-gray-500">
+            <div className="flex items-center gap-5 text-xs text-gray-500">
               <div className="flex items-center gap-1">
                 <Calendar className="w-3 h-3" />
                 <span>{post.publishDate}</span>

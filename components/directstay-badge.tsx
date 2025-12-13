@@ -9,7 +9,7 @@ export const DirectStayBadge = ({ className }: { className?: string }) => {
         height={5}
         width={5}
         alt="Directstay badge "
-        className="w-4 h-4"
+        className="w-6 h-6"
       />
       <span className="text-xs font-medium ">DirectStay</span>
       <Image
